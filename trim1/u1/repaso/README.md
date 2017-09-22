@@ -1,9 +1,9 @@
 # Instalación de Windows Server 2012 y Ubuntu 16.04
-<hr>
+
 
 ![imagen](img/001.png)
 ## 1. Instalación e configuración de Windows Server 2012
-<hr>
+
 
 Primero tenemos que ejecutar el VirtualBox y crear una máquina virtual para Windows Server 2012.
 
@@ -25,6 +25,10 @@ Seleccionamos GUI (Es la parte con entorno gráfico)
 Configuramos el formato del disco duro para la instalación.
 
 ![imagen](img/005.png)
+
+> Nota: Explicación y paso a paso de una instalación de Windows Server 2012.
+
+>> [**Enlace Instalación Windows Server 2012**](https://www.youtube.com/watch?v=yg3YTuDbhUc)
 
 ### 1.1.2 Nombre Equipo
 
@@ -55,6 +59,8 @@ Termina el proceso de instalación y por último necesitamos crear un bosque de 
 ![imagen](img/011.png)
 
 En el proceso de instalación posiblemente salgo un mensaje de advertencia que no tenemos un DNS, por lo tanto instalará el servicio de DNS.
+> Nota: Explicación de la instalación de Directorio Activo
+>> [**Enlace Directorio Activo en Windows Server 2012**](https://www.youtube.com/watch?v=xn3xPLzsdDw)
 
 ### 1.1.5 Comprobación del Equipo Cliente unido al dominio
 Tenemos que ir a herramientas administrativas, usuarios y equipos de Active Directory.
@@ -115,6 +121,10 @@ Se crea la siguiente máquina virtual con la siguientes características.
 Primeros tenemos que arrancar la iso desde la máquina virtual y seguimos el asistente de ubuntu, dejamos todos la configuración por defecto.
 
 ![imagen](img/024.png)
+
+> Nota: Explicación y paso a paso de una instalación de Ubuntu.
+
+>> [**Enlace Instalación Ubuntu**](https://www.youtube.com/watch?v=4rcxYO4dqbA)
 
 ### 2.1.2 Configuración del nombre del equipo, usuario y contraseña.
 
