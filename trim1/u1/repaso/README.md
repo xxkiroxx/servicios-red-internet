@@ -124,7 +124,7 @@ Primeros tenemos que arrancar la iso desde la máquina virtual y seguimos el asi
 
 > Nota: Explicación y paso a paso de una instalación de Ubuntu.
 
->> [**Enlace Instalación Ubuntu**](https://www.youtube.com/watch?v=4rcxYO4dqbA)
+> > [**Enlace Instalación Ubuntu**](https://www.youtube.com/watch?v=4rcxYO4dqbA)
 
 ### 2.1.2 Configuración del nombre del equipo, usuario y contraseña.
 
