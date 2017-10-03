@@ -136,6 +136,12 @@ En la carpeta de ámbito tenemos varias opciones para configurar, en este caso y
 
 ### Configurar también algunas opciones de servidor (aplicables a todos los ámbitos).<a name="id9"></a>
 
+![imagen](img/049.jpg)
+
+Se abre una nueva ventana y podemos configurar las siguientes opciones.
+
+![imagen](img/048.jpg)
+
 ## Comprobar funcionamiento DHCP configurando adecuadamente la máquina cliente y anotando parámetros recibidos.<a name="id10"></a>
 
 Ejecutamos un cliente Windows 10 y comprobamos que el servidor DHCP este funcionando.
@@ -150,8 +156,34 @@ Es importante que tengamos en el VirtualBox configurado la tarjeta de red en mod
 
 ## Crear un nuevo ámbito con los parámetros (rangos, exclusiones, reservas, opciones de ámbito) que te parezcan oportunas y que sea compatible con el anterior.<a name="id12"></a>
 
+Creamos un nuevo ámbito. Seguimos el mismo procedimiento que el ámbito anterior.
+
+![imagen](img/035.jpg)
+
+En este caso voy a utilizar una red de clase c.
+
+![imagen](img/036.jpg)
+
+El rango de dirección IP es el siguiente:
+
+![imagen](img/038.jpg)
+
+Realizamos una reserva para la siguiente IP
+
+![imagen](img/037.jpg)
+
 ## Comprobar el funcionamiento del nuevo ámbito desde el cliente.<a name="id13"></a>
+
+
 
 ## Crear un superámbito DHCP que incluya a los dos ámbitos anteriores.<a name="id14"></a>
 
 ## Desactivar el superámbito y comprobar que DHCP deja de prestar servicio en ambos ámbitos.<a name="id15"></a>
+
+Al desactivar el superámbito el servicio de DHCP no funciona en ninguno.
+
+![imagen](img/047.jpg)
+
+Comprobación en el Equipo Cliente que no funciona el DHCP, no tiene ninguna dirección IP
+
+![imagen](img/050.jpg)
