@@ -33,7 +33,7 @@
 
 ![imagen](img/win.png)
 
-## Instalaciónn DHCP en Windows Server 2012<a name="id1"></a>
+## Instalación DHCP en Windows Server 2012<a name="id1"></a>
  Tenemos que ir administrador, luego vamos añadir roles nuevos.
 
  ![imagen](img/001.png)
