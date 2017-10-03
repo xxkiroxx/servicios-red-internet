@@ -1,6 +1,6 @@
 # Windows Server 2012-DHCP
 
-- [Instalaciónn DHCP en Windows Server 2012](#id1)
+- [Instalación DHCP en Windows Server 2012](#id1)
 
 - [Configuración del servicio DHCP](#id2)
 
