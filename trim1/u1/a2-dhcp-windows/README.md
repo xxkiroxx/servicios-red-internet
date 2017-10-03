@@ -120,7 +120,11 @@ Configuración de los DNS
 
 ### Configurar resto de opciones necesarias.<a name="id6"></a>
 
+Tenemos que ir al ámbito creado en el DHCP-dpto-tecnico y buscamos la opciones del ámbito.
 
+Se abre una nueva ventana y dentro podemos configurar diferentes opciones, en este caso sera la de recursos compartidos en una red.
+
+![imagen](img/027.png)
 
 ### Establecer una reserva de dirección asociada a un equipo específico (MAC). <a name="id7"></a>
 
@@ -156,6 +160,14 @@ Es importante que tengamos en el VirtualBox configurado la tarjeta de red en mod
 
 ## Crear un nuevo ámbito con los parámetros (rangos, exclusiones, reservas, opciones de ámbito) que te parezcan oportunas y que sea compatible con el anterior.<a name="id12"></a>
 
+Importante antes de crear un ámbito nuevo, tenemos que agregar una nueva tarjeta de red al Servidor 2012 desde el VirtualBox y en modo red interna y le cambiamos el nombre de la red interna.
+
+![imagen](img/052.jpg)
+
+Ejecutamos el Windows Server 2012 y cambiamos los nombres de la tarjeta de red por si nos equivocamos.
+
+![imagen](img/053.jpg)
+
 Creamos un nuevo ámbito. Seguimos el mismo procedimiento que el ámbito anterior.
 
 ![imagen](img/035.jpg)
@@ -174,9 +186,35 @@ Realizamos una reserva para la siguiente IP
 
 ## Comprobar el funcionamiento del nuevo ámbito desde el cliente.<a name="id13"></a>
 
+Vamos al Equipo Cliente y le agregamos desde el VirtualBox una nueva tarjeta red, pero en modo red interna y con un nombre diferente.
+
+Iniciamos el Windows 10, realizamos el siguiente comando.
+
+    ipconfig /release
+    ipconfig /renew
+
+Como muestra en la siguiente imagen, a la tarjeta de red llamada tecnico, nos da un dirección IP del DHCP-Dpto Técnico y la tarjeta de red llamada comercial, nos da una dirección IP del DHCP-dpto-comercial.
+
+![imagen](img/051.jpg)
 
 
 ## Crear un superámbito DHCP que incluya a los dos ámbitos anteriores.<a name="id14"></a>
+
+Se crea un superámbito, solo tenemos que ir al servidor y con el botón secundario del ratón buscar la opción que dice superámbito. Seguimos el asistente de Windows.
+
+![imagen](img/043.jpg)
+
+Le damos siguiente
+
+![imagen](img/044.jpg)
+
+seleccionamos los ámbitos
+
+![imagen](img/045.jpg)
+
+El proceso de la creación de los super ámbito termina.
+
+![imagen](img/046.jpg)
 
 ## Desactivar el superámbito y comprobar que DHCP deja de prestar servicio en ambos ámbitos.<a name="id15"></a>
 
