@@ -76,7 +76,20 @@ El modo es equilibrio de carga, le damos siguiente.
 
 ![imagen](img/012.png)
 
+También podemos configurarlo en el modo de `espera activa, espera`. Si configuramos está opción el servidor secundario se quedá a la espera de que falle el servidor principal de DHCP.
 
+![imagen](img/021.png)
+
+
+El modo de `espera activa, activa`. Si configuramos está opción el servidor secundario está siempre activo, falle o no el servidor principal.
+
+![imagen](img/022.png)
+
+### Eliminación de Conmutaciónpor error
+
+Solo tenemos que seleccionar el protocolo IPv4, le damos propiedades, seleccionamos la pestaña conmutación por error y eliminamos las existente.
+
+![imagen](img/023.png)
 
 
 ### DHCP secundario<a name="4"></a>
