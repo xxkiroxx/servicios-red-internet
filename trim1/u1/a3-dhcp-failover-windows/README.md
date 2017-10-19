@@ -1,14 +1,26 @@
+>Trabajo Realizado por:
+>
+>[Noelia Hernández Domínguez]()
+>
+>[Roberto Hernández Sanabria](https://github.com/xxkiroxx/servicios-red-internet/blob/master/trim1/u1/a3-dhcp-failover-windows/README.md)
+>
+>[Kevin Hernández García](https://github.com/KeyMax14/rsd1718-kevin/blob/master/trim1/u2/a4-DHCP-Failover/README.md)
+
+
+
 # DHCP Failover Windows Server 2012
 
-- [Agregar un segundo Servidor](#1)
+En esta actividad vamos a configurar un servidor complementario al de la actividad anterior que nos permita establecer un servicio `DHCP Failover`, el cual consiste en tener un segundo servidor DHCP que funcione de respaldo a nuestro servidor principal. Para elaborarlo realizaremos los siguientes pasos:
 
-- [DHCP del Servidor Principal](#2)
+- [1. Agregar un segundo Servidor](#1)
 
-    - [Configuración conmutación por error ( DHCP Failover)](#3)
+- [2. DHCP del Servidor Principal](#2)
 
-    - [DHCP secundario](#4)
+    - [2.1. Configuración conmutación por error ( DHCP Failover)](#3)
 
-    - [Equipo Cliente](#5)
+    - [2.2. DHCP secundario](#4)
+
+    - [2.3. Equipo Cliente](#5)
 
 - [Captura con el Servidor DHCP Principal suministrando IP al Equipo Cliente](#6)
 
@@ -17,60 +29,61 @@
 
 ![imagen](img/000.png)
 
-    Trabajo Realizado por:
-
-- [Noelia Hernández Domínguez]()
-
-- [Kevin Hernández García]()
-
-- [Roberto Hernández Sanabria](https://github.com/xxkiroxx/servicios-red-internet/blob/master/trim1/u1/a3-dhcp-failover-windows/README.md)
 
 
+## 1. Agregar un segundo Servidor<a name="1"></a>
 
-## Agregar un segundo Servidor<a name="1"></a>
-Tenemos que ir a la ventana administrador del Servidor.
+Lo primero que haremos será incluir el segundo servidor dentro del dominio de nuestro servidor principal, para esto nos dirigimos a la ventana `Administrador del Servidor` -> `Agregar otros servidores para administrar` en el servidor **principal**.
 
 ![imagen](img/003.png)
 
 ![imagen](img/002.png)
 
-Solo tenemos que darle buscar ahora, te salen los servidores disponibles, seleccionamos el servidor y le damos a la flecha para pasarlo para el cuadro de la derecha. Los servidores ya se conocen entre ellos, dentro de su directorio activo.
+Tras esto solo tenemos que darle buscar ahora, te salen los servidores disponibles, seleccionamos el servidor y le damos a la flecha para pasarlo para el cuadro de la derecha. Los servidores ya se conocen entre ellos, dentro de su directorio activo.
 
 
-## DHCP del Servidor Principal<a name="2"></a>
+## 2. DHCP del Servidor Principal<a name="2"></a>
 
-Tenemos creado ya dos ámbitos de DHCP en el servidor principal.
+De la práctica anterior conservamos dos ámbitos de DHCP en el servidor principal. Mientras que en nuestro servidor secundario no tenemos creado ningún ámbito, esto cambiara cuando conmutemos uno de los ámbitos que ya disponemos.
+
+- DHCP del Servidor Principal
 
 ![imagen](img/001.png)
 
-- DHCP del servidor Secundario
+- DHCP del Servidor Secundario
 
 ![imagen](img/008.png)
 
 
-### Configuración conmutación por error ( DHCP Failover)  <a name="3"></a>
+### 2.1. Configuración conmutación por error (DHCP Failover)  <a name="3"></a>
 
-Con el botón secundario del ratón en el servidor principal y seleccionamos configurar conmutación por error.
+Ha llegado el momento de generar el `DHCP Failover`, para ello pulsamos el botón secundario del ratón en el servidor principal y seleccionamos configurar conmutación por error.
 
 ![imagen](img/005.png)
 
-Se nos abre una nueva venta en la que seleccionamos los ámbitos.
+Se nos abre una nueva venta en la que seleccionamos los ámbitos que queramos conmutar.
 
 ![imagen](img/006.png)
 
-Tenemos que buscar el servidor secundario para que pueda pasar toda la información de la configuración de los ámbitos.
+Tenemos que buscar el servidor secundario para que pueda pasar toda la información de la configuración de los ámbitos, esto lo podremos hacer introduciendo la IP de `serverob3` o buscando el nombre de host del equipo en la red de equipos.
 
 ![imagen](img/009.png)
 
-Podemos escribir la IP o ir agregar servidor.
-
 ![imagen](img/007.png)
 
-Seleccionamos el servidor secundario.
+Seleccionamos el servidor secundario, le damos aceptar y se nos abrirá una nueva ventana para crear una nueva relación. Existen varios modos de conmutación por error, estos son:
 
-Le damos aceptar y se nos abre una nueva ventana para crear una nueva relación.
+- Equilibrio de carga.
 
-El modo es equilibrio de carga, le damos siguiente.
+-  Espera activa.
+
+      - Por defecto espera.
+      - Por defecto activa.
+
+
+
+
+En el modo `equilibrio de carga`, el trafico de clientes por defecto se reparte 50-50 entre ambos servidores, si nuestro objetivo es repartir la carga de los equipos equilibradamente puede ser el que deseemos. A parte si uno de los dos servidores no funciona o no esta disponible, el servidor restante se encargará de todo el tráfico entrante.
 
 ![imagen](img/010.png)
 
@@ -78,52 +91,54 @@ El modo es equilibrio de carga, le damos siguiente.
 
 ![imagen](img/012.png)
 
-También podemos configurarlo en el modo de `espera activa, espera`. Si configuramos está opción el servidor secundario se quedá a la espera de que falle el servidor principal de DHCP.
+También podemos configurarlo en el modo de `espera activa "espera"`. Si configuramos está opción el servidor secundario se queda a la espera de que falle el servidor principal de DHCP y no reparte direcciones hasta que esto ocurre.
 
 ![imagen](img/021.png)
 
 
-El modo de `espera activa, activa`. Si configuramos está opción el servidor secundario está siempre activo, falle o no el servidor principal.
+El modo de `espera activa "activa"`. Si configuramos está opción el servidor secundario está siempre activo, falle o no el servidor principal.
 
 ![imagen](img/022.png)
 
-### Eliminación de Conmutaciónpor error
+### Eliminación de Conmutación por error
 
-Solo tenemos que seleccionar el protocolo IPv4, le damos propiedades, seleccionamos la pestaña conmutación por error y eliminamos las existente.
+En el caso de que queramos borrar los servidores de conmutación por error solo tenemos que seleccionar el protocolo IPv4, le damos propiedades, seleccionamos la pestaña conmutación por error y eliminamos las existente.
 
 ![imagen](img/023.png)
 
 
-### DHCP secundario<a name="4"></a>
+### 2.2. DHCP secundario<a name="4"></a>
 
-Solo tenemos que darle actualizar y se tiene que actualizar todas las configuraciones de los ámbitos del DHCP principal.
+Una vez realizado todos los ajustes pertinentes en nuestro servidor principal solo tendremos que darle a actualizar en el servidor DHCP secundario.
 
 ![imagen](img/013.png)
 
-Después de actualizar.
+Tras esto ya nos aparecerán los ámbitos del DHCP principal.
 
 ![imagen](img/014.png)
 
 
-## Equipo Cliente<a name="5"></a>
+## 2.3. Equipo Cliente<a name="5"></a>
 
-Realizamos un `ipconfig /release` y `ipconfig /renew`
+Ha llegado el momento de comprobar que nuestros servidor `DHCP Failover` funciona correctamente, para esto nos dirigimos a nuestra máquina cliente y reiniciamos la tarjeta de red.
+
+- Realizamos un `ipconfig /release` y `ipconfig /renew`
 
 ![imagen](img/015.png)
 
-Realizamos un `ipconfig /all`
+- Realizamos un `ipconfig /all`
 
 ![imagen](img/017.png)
 
-Se comprueba y el Servidor DHCP principal no está dando la dirección IP.
+Con este último comando comprobamos que el Servidor DHCP principal es el que nos cede la dirección IP.
 
 Para simular un fallo del servidor DHCP Principal, desactivamos el DHCP principal.
 
-Realizamos de nuevo un Realizamos un `ipconfig /release` y `ipconfig /renew`
+- Realizamos de nuevo un `ipconfig /release` y `ipconfig /renew`
 
 ![imagen](img/016.png)
 
-El servidor secundario DHCP está dando dirección IP al Equipo cliente.
+Esta vez es el servidor secundario DHCP el que nos está dando la dirección IP.
 
 
 
@@ -134,3 +149,5 @@ El servidor secundario DHCP está dando dirección IP al Equipo cliente.
 ## Captura con el Servidor DHCP Secundario suministrando IP al Equipo Cliente<a name="7"></a>
 
 ![imagen](img/019.png)
+
+Con esto damos por finalizada la actividad.
