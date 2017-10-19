@@ -19,9 +19,9 @@
 
     Trabajo Realizado por:
 
-        [Noelia]()
-        [Kevin Hernández]()
-        [Roberto Hernández Sanabria]()
+        [Noelia Hernández Domínguez]()
+        [Kevin Hernández García]()
+        [Roberto Hernández Sanabria](https://github.com/xxkiroxx/servicios-red-internet/blob/master/trim1/u1/a3-dhcp-failover-windows/README.md)
 
 
 
