@@ -14,9 +14,9 @@
 
 - [Crear una Subzona demoninada servicios](#7)
 
-- [Comprobar desde consola del cliente que resuelvan](#8)
+- [Comprobar desde consola del cliente que resuelvan nslookup type](#8)
 
-- [Realizar operaciones con type en nslookup](#9)
+- [Realizar operaciones con nslookup fuera de la intranet](#9)
 
 
 
