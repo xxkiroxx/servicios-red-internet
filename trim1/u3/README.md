@@ -1,10 +1,28 @@
 # DNS en Windows Server 2012
 
+- [Instalación y Configuración DNS](#1)
+
+- [Creación de Zona Búsqueda Directa](#2)
+
+- [Creación de Zona Búsqueda Inversa](#3)
+
+- [Configuración de Reenviadores](#4)
+
+- [Comprobar el funcionamiento del DNS caché](#5)
+
+- [Configuración DNS Maestro](#6)
+
+- [Crear una Subzona demoninada servicios](#7)
+
+- [Comprobar desde consola del cliente que resuelvan](#8)
+
+- [Realizar operaciones con type en nslookup](#9)
 
 
-![img](img/000.png)
 
-## Realizar la instalación y configuración de un servidor DNS en una máquina con Windows Server 2012. Se piden las siguientes acciones de configuración y prueba del funcionamiento del servicio:
+![img](img/000.jpg)
+
+## Realizar la instalación y configuración de un servidor DNS en una máquina con Windows Server 2012. Se piden las siguientes acciones de configuración y prueba del funcionamiento del servicio:<a name="1"></a>
 
 Tenemos que abrir la ventana de `Administrador del servidor -> Administrar -> Agregar Roles`.
 
@@ -37,7 +55,7 @@ Comprobamos que tenemos el servicio instalado en el siguiente ruta `Administrado
 
 
 
-## Creación de una nueva Zona Búsqueda Directa
+## Creación de una nueva Zona Búsqueda Directa <a name="2"></a>
 
 Tenemos que entrar en `Administador del servidor -> Herramientas -> DNS`
 
@@ -60,7 +78,7 @@ Tenemos que entrar en `Administador del servidor -> Herramientas -> DNS`
 
 - Por lo tanto ya tenemos configurado una nueva zona Directa.
 
-## Crear una zona de búsqueda inversa para tu subred.
+## Crear una zona de búsqueda inversa para tu subred.<a name="3"></a>
 
 En la carpeta de `Zonas de Búsqueda inversa` con el botón secundario del ratón creamos una nueva zona inversa.
 
@@ -79,7 +97,7 @@ En la carpeta de `Zonas de Búsqueda inversa` con el botón secundario del rató
 - Ya tenemos configurado la nueva `Zona de Búsqueda inversa`.
 
 
-## Configurar reenviadores de DNS con fry o puerta de enlace actual y DNS público (p.e.: 195.235.113.3 / 80.58.61.250 / 8.8.8.8).
+## Configurar reenviadores de DNS con fry o puerta de enlace actual y DNS público (p.e.: 195.235.113.3 / 80.58.61.250 / 8.8.8.8).<a name="4"></a>
 
 Seleccionamos nuestro servidor `serverob2 -> Propiedades -> reenviadores`
 
@@ -99,7 +117,7 @@ Seleccionamos nuestro servidor `serverob2 -> Propiedades -> reenviadores`
 
 ![img](img/008.png)
 
-### Configurar cliente para que su servidor DNS sea el servidor W2012. Comprobar el funcionamiento como caché DNS de ambas máquinas al acceder a sitios de Internet.
+### Configurar cliente para que su servidor DNS sea el servidor W2012. Comprobar el funcionamiento como caché DNS de ambas máquinas al acceder a sitios de Internet.<a name="5"></a>
 
 Configuramos la tarjeta de red con la IP del DNS del Servidor Windows Server 2012.
 
@@ -110,7 +128,7 @@ Configuramos la tarjeta de red con la IP del DNS del Servidor Windows Server 201
 
 ![img](img/028.png)
 
-## Configuraremos el servidor como DNS Maestro, además de Caché.
+## Configuraremos el servidor como DNS Maestro, además de Caché.<a name="6"></a>
 
 La configuración de un Servidor DNS Maestro solo con tener registros en el propio servidor de DNS, como por ejemplo, `cname, mx, a`. Ya hemos creado una zona directa y vamos a crear un alias para el servidor, para impresora y un email.
 
@@ -170,7 +188,7 @@ Registros de los hosts con la IP
 ![img](img/049.png)
 
 
-## Crear una subzona denominada servicios (dominio nuevo)
+## Crear una subzona denominada servicios (dominio nuevo)<a name="7"></a>
 
 Vamos a crear una nueva zona en la zona directa. Solo debemos seguir los mismos pasos.
 
@@ -180,6 +198,16 @@ Vamos a crear una nueva zona en la zona directa. Solo debemos seguir los mismos 
 ![img](img/050.png)
 ![img](img/051.png)
 ![img](img/052.png)
+
+### Creamos la Subzona de servicios
+
+Con el botón secundario del ratón en la nuevazona y le damos `dominio nuevo`.
+
+![img](img/062.png)
+
+- Escribimos el nombre de `servicios`
+
+![img](img/063.png)
 
 
 ### Agregar a ésta un servidor ftp (asociado a la misma IP del servidor)
@@ -221,36 +249,29 @@ Vamos a crear una nueva zona en la zona directa. Solo debemos seguir los mismos 
 ![img](img/057.png)
 
 
-### Comprobar desde la consola del cliente que se resuelven correctamente los nombres dados de alta en el servidor (aunque en algunos casos, si se trata de direcciones ficticias, no se obtenga respuesta).
+### Comprobar desde la consola del cliente que se resuelven correctamente los nombres dados de alta en el servidor (aunque en algunos casos, si se trata de direcciones ficticias, no se obtenga respuesta).<a name="8"></a>
 
 ```console
 
-C:\Windows\system32>nslookup ftp.servicios
+C:\Windows\system32>nslookup printer2.servicios.skynet.edu
 Servidor:  serverob2.skynet.edu
 Address:  172.18.22.1
 
-Nombre:  ftp.servicios
-Address:  172.18.22.1
-
-
-C:\Windows\system32>nslookup administrador.servicios
-Servidor:  ftp.servicios
-Address:  172.18.22.1
-
-Nombre:  administrador.servicios
-Address:  172.18.22.7
-
-
-C:\Windows\system32>nslookup impresora.servicios
-Servidor:  serverob2.skynet.edu
-Address:  172.18.22.1
-
-Nombre:  impresora.servicios
+Nombre:  printer2.servicios.skynet.edu
 Address:  172.18.22.6
 
 
+C:\Windows\system32>nslookup server
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Nombre:  serverob2.skynet.edu
+Address:  172.18.22.1
+Aliases:  server.skynet.edu
+
+
 C:\Windows\system32>nslookup -type=mx mail
-Servidor:  ftp.servicios
+Servidor:  serverob2.skynet.edu
 Address:  172.18.22.1
 
 mail.skynet.edu MX preference = 10, mail exchanger = mailserver.skynet.edu
@@ -262,8 +283,94 @@ Address:  172.18.22.1
 
 server.skynet.edu       canonical name = serverob2.skynet.edu
 
+C:\Windows\system32>nslookup -type=a printer2.servicios.skynet.edu
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Nombre:  printer2.servicios.skynet.edu
+Address:  172.18.22.6
+
+
+C:\Windows\system32>nslookup administrador.servicios.skynet.edu
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Nombre:  administrador.servicios.skynet.edu
+Address:  172.18.22.7
+
+
+C:\Windows\system32>nslookup cliente1.servicios.skynet.edu
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Nombre:  cliente1.servicios.skynet.edu
+Address:  172.18.22.10
+
+
+C:\Windows\system32>nslookup ftp.servicios.skynet.edu
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Nombre:  ftp.servicios.skynet.edu
+Address:  172.18.22.1
+
+
+C:\Windows\system32>nslookup mailserver
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Nombre:  mailserver.skynet.edu
+Address:  172.18.22.5
+
+
+C:\Windows\system32>nslookup printer
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Nombre:  printer.skynet.edu
+Address:  172.18.22.4
+
+
 C:\Windows\system32>
+
 
 ```
 
-### Realizar, también desde el cliente, algunas operaciones con nslookup tanto dentro como fuera de nuestra intranet.
+### Realizar desde el cliente, algunas operaciones con nslookup fuera de nuestra intranet.<a name="9"></a>
+
+
+```console
+
+C:\Windows\system32>nslookup www.google.es
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Respuesta no autoritativa:
+Nombre:  www.google.es
+Addresses:  2a00:1450:4003:806::2003
+          216.58.211.195
+
+
+C:\Windows\system32>nslookup www.facebook.es
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Respuesta no autoritativa:
+Nombre:  star-mini.c10r.facebook.com
+Addresses:  2a03:2880:f104:83:face:b00c:0:25de
+          31.13.83.36
+Aliases:  www.facebook.es
+          www.facebook.com
+
+
+C:\Windows\system32>nslookup www.elotrolado.net
+Servidor:  serverob2.skynet.edu
+Address:  172.18.22.1
+
+Respuesta no autoritativa:
+Nombre:  elotrolado.net
+Address:  195.78.228.226
+Aliases:  www.elotrolado.net
+
+
+```
