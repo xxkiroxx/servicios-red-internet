@@ -22,6 +22,11 @@
 
 ![img](img/000.png)
 
+Trabajo realizado por:
+
+Kevin Hernández García
+Roberto Hernández Sanabria
+
 
 ## Realizar la instalación y configuración de un servidor DNS bind9 en una máquina Linux.<a name="1"></a>
 
