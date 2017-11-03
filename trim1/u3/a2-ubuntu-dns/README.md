@@ -126,6 +126,8 @@ Procesando disparadores para ufw (0.35-0ubuntu2) ...
 ```
 ### Configuración de su tarjeta de red<a name="2"></a>
 
+Como veremos más adelante, `network-manager` nos puede causar conflictos a la hora de establecer los dns, por eso podemos configurar nuestra tarjera de red en modo estático configurando el fichero `/etc/network/interfaces` de la siguiente manera.
+
 ```console
 
 roberto@serverob:~$ sudo cat /etc/network/interfaces
@@ -163,7 +165,7 @@ nameserver 172.18.22.1
 
 ```
 
-En caso de problema con el resolv.conf, tenemos una recomendación es quitar el network-manager. Configurar todos los ficheros de configuración de network en la siguiente ruta `/etc/network/interfaces`. Es una opción para que no se cambie el fichero de `resolv.conf`.
+En caso de problema con el resolv.conf, en el caso de que al reiniciar nuestra máquina no perdure, tenemos como recomendación quitar el `network-manager` como mencionamos anteriormente.
 
 ```console
 roberto@serverob:~$ sudo systemctl stop networking.service
@@ -225,6 +227,8 @@ Procesando disparadores para libc-bin (2.23-0ubuntu3) ...
 ```
 - Reiniciamos el sistema operativo Ubuntu para comprobar que no se cambia el resolv.conf
 
+- Para tener acceso a nuestra tarjeta de red tenemos que verificar que el fichero `/etc/network/interfaces` sigue como lo habíamos dejado en el apartado.
+
 ### Configurar servidor como caché DNS (/etc/bind/named.conf.options) con reenviadores de DNS con DNS públicos (p.e.: 8.8.8.8 y 80.58.61.250).<a name="4"></a>
 
 Primero realizamos una copia de seguridad del fichero por defecto.
@@ -235,7 +239,7 @@ roberto@serverob:~$ sudo cp /etc/bind/named.conf.options /etc/bind/named.conf.op
 
 ```
 
-- Modificamos el fichero `named.conf.options`, solo tenemos que descomentar `forwarders` y dentro escribir los DNS.
+- Modificamos el fichero `named.conf.options`, solo tenemos que descomentar el apartado `forwarders` y dentro del mismo escribir los DNS que actuaran como caché.
 
 ```console
 
@@ -269,7 +273,7 @@ options {
 
 ```
 
-- Tenemos que reiniciar el servicios de bind9
+- Tenemos que reiniciar el servicio `bind9` para que se carguen los cambios.
 
 
 ```console
@@ -304,7 +308,7 @@ roberto@serverob:~$
 
 ### Comprobar resolución de nombres externos, tanto desde el servidor como desde un cliente al que le preste servicio DNS.<a name="5"></a>
 
-Realizamos una comprobación desde un servidor con el comando `nslookup`
+Realizamos una comprobación desde el servidor con el comando `nslookup`.
 
 ```console
 roberto@serverob:~$ nslookup www.google.es
@@ -364,7 +368,7 @@ Address: 157.240.1.35
 
 ```
 
-En caso de problema con el resolv.conf, tenemos una recomendación es quitar el network-manager. Configurar todos los ficheros de configuración de network en la siguiente ruta `/etc/network/interfaces`. Es una opción para que no se cambie el fichero de `resolv.conf`
+En caso de problema con el resolv.conf, tenemos como recomendación quitar `network-manager`. Configurar todos los ficheros de configuración de network en la siguiente ruta `/etc/network/interfaces`. Es una opción para que no se cambie el fichero de `resolv.conf`
 
 
 ```console
@@ -426,7 +430,9 @@ Procesando disparadores para libc-bin (2.23-0ubuntu3) ...
 
 ```
 
-- Reiniciamos el sistema operativo ubuntu y ya no tiene porque cambiarse el `resolv.conf`.
+- Reiniciamos el sistema operativo ubuntu y ya no tiene porque cambiarse la información de `resolv.conf`.
+
+> **Nota:** Otra opción podría ser eliminar `/etc/resolv.conf`, que es un enlace simbolico, y crear un fichero de texto con el mismo nombre que guarde el dns de nuestro servidor, este no podrá ser modificado por `network-manager`.
 
 ### Configurar como DNS maestro instalando un dominio ficticio (tu empresa virtual) y añadiendo configuración para búsquedas de zona directa y zona inversa (/etc/bind/named.conf.local)<a name="6"></a>
 
@@ -446,6 +452,7 @@ sudo cat /etc/bind/named.conf.local
 
 
 # Añadir en /etc/bind/named.conf.local
+
 # Archivo para búsquedas directas
 
 zone "skynet.edu" {
@@ -463,7 +470,7 @@ zone "18.172.in-addr.arpa" {
 
 ```
 
-- Debemos crear los ficheros zona directa `db.skynet` y zona inversa `db.172`.
+- Debemos crear los ficheros zona directa `/etc/bind/db.skynet` y zona inversa `/etc/bind/db.172`.
 
 ```console
 roberto@serverob:~$ sudo touch /etc/bind/db.172
@@ -526,7 +533,7 @@ mail		IN	MX	0	servermail.skynet.edu.
 
 #### Zona de búsqueda inversa<a name="8"></a>
 
-Tenemos que ir al fichero de configuración `/etc/bind/db.172` este fichero lo creamos para la zona inversa.
+Tenemos que ir al fichero de configuración `/etc/bind/db.172`. Este fichero lo creamos para la zona inversa.
 
 ```console
 
@@ -589,7 +596,9 @@ roberto@serverob:~$
 
 ```
 
-### Comprobar desde la consola del cliente que se resuelven correctamente los nombres dados de alta en el servidor (aunque en algunos casos, si se trata de direcciones ficticias, no se obtenga respuesta).<a name="10"></a>
+> **Nota:** Nuestro servidor reconoce los `hosts` sin necesidad de dominio debido a que especificamos el mismo en el fichero `/etc/network/interfaces`.
+
+### Comprobar desde la consola del cliente que se resuelven correctamente los nombres dados de alta en el servidor (aunque en algunos casos, si se trata de direcciones ficticias, no se obtiene respuesta).<a name="10"></a>
 
 
 ```console
@@ -642,8 +651,7 @@ roberto@clienterob:~$
 
 ## Configuración de Servidor DNS-Slave<a name="11"></a>
 
-
- Primero tenemos que cambiar el nombre al Servidor, cambiar la dirección IP del servidor y establecer una nueva dirección IP en el `resolv.conf`.
+Para crear un servidor esclavo tenemos que instalar en otra MV el servicio DNS `bind9`, para evitar que se alargue la práctica podemos clonar nuestro servidor y cambiar el nombre, la dirección IP y establecer una nueva dirección IP en el fichero `/etc/resolv.conf`.
 
 ```console
 
@@ -697,6 +705,7 @@ roberto@serverob2:~$
 
 ### Configurar el fichero `/etc/bind/named.conf.local`<a name="12"></a>
 
+
 ```console
 
 roberto@serverob2:~$ sudo nano /etc/bind/named.conf.local
@@ -731,7 +740,7 @@ roberto@serverob2:~$
 
 ```
 
-Si nos fijamos en le fichero de configuración solo cambiamos el type a slave y decimos donde queremos que se guarden los registros de zona directa y zona inversa y cual es el master con su dirección IP.
+Si nos fijamos en el fichero de configuración solo cambiamos el parámetro `type` a `slave` y decimos donde queremos que se guarden los registros de zona directa y zona inversa, así como quienes son sus `masters` indicando su dirección IP.
 
 
 Para realizar las comprobaciones de que funciona correctamente el servidor DNS2 solo tenemos que parar el servicio en el servicio DNS1.
@@ -795,7 +804,7 @@ Address: 172.18.22.4
 
 ```
 
-Es importante que en el equipo cliente y en los servidores tengan en el `resolv.conf` la siguientes dirección de DNS.
+Es importante que en el equipo cliente y en los servidores tengan en `/etc/resolv.conf` las  direcciones de ambos servidores DNS.
 
 ```console
 roberto@serverob2:~$ cat /etc/resolv.conf
@@ -838,7 +847,7 @@ roberto@clienterob:~$
 
 
 ```
-Si tenemos en el resolv.conf la IP
+- Si tenemos en  `/etc/resolv.conf` la IP ya podremos utilizar nuestro servidor DNS.
 
 ```console
 
