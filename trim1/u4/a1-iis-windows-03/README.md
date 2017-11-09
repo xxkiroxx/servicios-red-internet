@@ -42,8 +42,3 @@ Para acceder al directorio virtual nuevo solo tenemos que escribir `www.terminat
 - Realizamos la comprobación desde `www.terminator.edu/directoriovirtual/t1000`
 
 ![](img/010.png)
-
-## Recuerda realizar las configuraciones DNS necesarias para que los diferentes nombres que se han ido creando referentes a nuestro sitio web sean resueltos correctamente.
-
-
-## Finalmente, elige los documentos que serán mostrados por defecto en cada uno de los sitios y directorios virtuales creados y el orden de prioridad entre ellos
