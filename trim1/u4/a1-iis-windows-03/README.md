@@ -42,3 +42,21 @@ Para acceder al directorio virtual nuevo solo tenemos que escribir `www.terminat
 - Realizamos la comprobación desde `www.terminator.edu/directoriovirtual/t1000`
 
 ![](img/010.png)
+
+### Configuración del Directorio Activo para que tenga autoindex
+
+Entramos al administrador de Internet Information Services(IIS)
+
+![](img/011.png)
+
+Le damos al icono de examen de directorios -> le damos a habilitar.
+
+![](img/012.png)
+
+Quitamos de la carpeta de directorio activo el index.html
+
+![](img/014.png)
+
+Vamos al cliente y comprobamos desde el navegador que podemos ver la estructura de ficheros.
+
+![](img/013.png)
