@@ -122,6 +122,7 @@ Solo tenemos que ir a los DNS y agregar el dominio de tienda.
 - Comprobamos como genera el fichero.
 
 ![](img/027.png)
+
 #### 3.3.1 Instalación de OpenSSL para simular que es una empresa certificadora.
 
 - Descargamos el programa OpenSSL y los instalamos, el proceso de instalación es muy sencillo, solo debemos seguir el asistente de Windows.
