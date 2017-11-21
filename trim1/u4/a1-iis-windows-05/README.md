@@ -1,6 +1,6 @@
 # Práctica de Windows 2012 Server - Carpetas Privadas
 
-## 1. Guiándote por los pasos detallados en el apartado de carpetas privadas del documento PDF de Carpetas Seguras y Privadas, vamos a crear un nuevo sitio web (empleados.miEmpresa.com) destinado a almacenar información privada de los empleados, con las siguientes características:
+Guiándote por los pasos detallados en el apartado de carpetas privadas del documento PDF de Carpetas Seguras y Privadas, vamos a crear un nuevo sitio web (empleados.miEmpresa.com) destinado a almacenar información privada de los empleados, con las siguientes características:
 
 ## 2. Crear una carpeta empleados (dentro de miempresa) y, dentro de esta, tres o cuatro subcarpetas personales con nombres de empleados y una, denominada común, a la que tendrán acceso todos los empleados, pero no otros usuarios sin identificar.
 
