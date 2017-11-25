@@ -1,7 +1,14 @@
 # Práctica de Windows 2012 Server - Internet Information Server (IIS)
 ## Instalación de PHP, MySQL, PHPMyAdmin y FTP
 
-## 1. Instalación de PHP
+- [1. Instalación de PHP](#1)
+- [2. Instalación de MySQL](#2)
+- [3. Creación Sitio Web phpmyadmin.miempresa.edu](#3)
+- [4. Actualización Registro en el Servidor DNS](#4)
+- [5. Instalación de PHPMyAdmin](#5)
+- [6. Instalación de FTP](#6)
+
+## 1. Instalación de PHP<a name=1></a>
 Tenemos que ir a la página http://windows.php.net y descargamos la version de `php-5.3.9-nts.msi`
 
 ![](img/001.png)
@@ -50,7 +57,7 @@ Tenemos que ir a la página http://windows.php.net y descargamos la version de `
 
 ![](img/012.png)
 
-## 2. Instalación de MySQL 5.7.20
+## 2. Instalación de MySQL 5.7.20<a name=2></a>
 
 Tenemos que ir a la página de MySQL y comenzamos a descargar el fichero.
 
@@ -133,7 +140,7 @@ Tenemos que ir a la página de MySQL y comenzamos a descargar el fichero.
 ![](img/033.png)
 ![](img/034.png)
 
-## 3. Crear Sitio Web phpmyadmin.miempresa.edu
+## 3. Crear Sitio Web phpmyadmin.miempresa.edu<a name=3></a>
 
 Primero tenemos que ir al IIS y creamos un nuevo sitio web llamado `phpmyadmin.miempresa.edu` y le decimos la ruta.
 
@@ -143,13 +150,13 @@ Primero tenemos que ir al IIS y creamos un nuevo sitio web llamado `phpmyadmin.m
 
 ![](img/036.png)
 
-## 4. Actualizar Registro en el Servidor DNS
+## 4. Actualizar Registro en el Servidor DNS<a name=4></a>
 
 Tenemos que ir al Servidor `DNS` y creamos un nuevo registro de alias llamado phpmyadmin.
 
 ![](img/038.png)
 
-## 5. Instalación phpmyadmin
+## 5. Instalación phpmyadmin<a name=5></a>
 
 En la página oficial de phpmyadmin descargamos la versión `phpmyadmin4.0.10.20`
 
@@ -173,7 +180,7 @@ En la página oficial de phpmyadmin descargamos la versión `phpmyadmin4.0.10.20
 
 - Comprobamos que funciona correctamente y se conecta con el usuario `roberto`
 
-## 6. Instalación FTP-Server Filezilla
+## 6. Instalación FTP-Server Filezilla<a name=6></a>
 
 Descargamos de la página de Filezilla su aplicación para servidor y comenzamos con la instalación. Con este programa vamos a crear un servicio de `ftp` en nuestro windows server 2012
 
