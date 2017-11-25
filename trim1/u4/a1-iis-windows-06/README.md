@@ -158,14 +158,53 @@ En la página oficial de phpmyadmin descargamos la versión `phpmyadmin4.0.10.20
 - Se descarga un fichero comprimido lo que tenemos que realizar es pasar todo ese contenido a la carpeta que tenemos creada en mi `empresa/phpmyadmin` y copiamos todo el fichero de `phpmyadmin`.
 
 ![](img/039.png)
+
+- Abrimos cualquier navegador y escribimos `phpmyadmin.miempresa.edu` y debe verse como la siguiente imagen.
+
 ![](img/040.png)
+
+- Entramos con el usuario root y establecemos su contraseña.
+
 ![](img/041.png)
+
+- Realizamos el mismo procedimiento desde un Equipo cliente `Windows 10` y escribimos en el navegador `phpmyadmin.miempresa.edu`
+
 ![](img/042.png)
+
+- Comprobamos que funciona correctamente y se conecta con el usuario `roberto`
+
+## 6. Instalación FTP-Server Filezilla
+
+Descargamos de la página de Filezilla su aplicación para servidor y comenzamos con la instalación. Con este programa vamos a crear un servicio de `ftp` en nuestro windows server 2012
+
 ![](img/043.png)
+
+- Ya tenemos descargado la aplicación de `filezilla-server` comenzamos con la instalación.
+
 ![](img/044.png)
+
+- Aceptamos los términos.
+
 ![](img/045.png)
+
+- Le damos siguiente.
+
 ![](img/046.png)
+
+- Le damos siguiente.
+
 ![](img/047.png)
+
+- Le damos siguiente.
+
 ![](img/048.png)
+
+- Le damos instalar
+
 ![](img/049.png)
+
+- Terminada la instalación.
+
 ![](img/050.png)
+
+- Abrimos la aplicación y vamos a `Users -> creamos un usuario llamado ftpuser`
