@@ -7,6 +7,13 @@
 - [4. Actualización Registro en el Servidor DNS](#4)
 - [5. Instalación de PHPMyAdmin](#5)
 - [6. Instalación de FTP](#6)
+    - [6.1 Configuración Firewall](#7)
+    - [6.2 Comprobamos desde navegador del cliente FTP](#8)
+    - [6.3 Comprobamos desde un cliente FTP-Filezilla](#9)
+- [7. Instalación y Configuración de Drupal](#10)
+    - [7.1 Creación de Base de DAtos cms](#11)
+    - [7.2 Instalación Drupal](#12)
+
 
 ## 1. Instalación de PHP<a name=1></a>
 Tenemos que ir a la página http://windows.php.net y descargamos la version de `php-5.3.9-nts.msi`
@@ -18,6 +25,7 @@ Tenemos que ir a la página http://windows.php.net y descargamos la version de `
 ![](img/002.png)
 
 - Le damos siguiente.
+
 ![](img/003.png)
 
 ![](img/004.png)
@@ -35,6 +43,7 @@ Tenemos que ir a la página http://windows.php.net y descargamos la version de `
 ![](img/007.png)
 
 - Le damos siguiente y instalamos el `CGI`
+
 ![](img/008.png)
 
 - Comienza la Instalación.
@@ -215,3 +224,187 @@ Descargamos de la página de Filezilla su aplicación para servidor y comenzamos
 ![](img/050.png)
 
 - Abrimos la aplicación y vamos a `Users -> creamos un usuario llamado ftpuser`
+
+![](img/057.png)
+
+- Le damos add y escribimos el usuario.
+
+![](img/058.png)
+
+- Escribimos `ftpuser`
+
+Vamos a la pestaña llamada `shared folders` y establecemos la ruta que deseamos compartir para el usuario `ftpuser`
+
+![](img/059.png)
+
+- Establecemos los permisos necesarios para que el usuario `ftpuser` pueda trabajar sobre ese recursos compartido.
+
+![](img/060.png)
+
+### 6.1 Firewall<a name=7></a>
+
+Tenemos que establecer una nueva regla en el corta fuegos del servidor para que puedan acceder al ftp mediante el puerto 21. `Panel de Control -> Firewall Avanzado -> nueva regla`
+
+![](img/051.png)
+
+- Se nos abre una nueva ventana y establecemos los puertos que deseamos abrir, en este caso `20, 21` y el protocolo `TCP`
+
+![](img/052.png)
+
+- Permitimos la conexión.
+
+![](img/053.png)
+
+- Seleccionamos para que se aplique en el `dominio, privado y público`
+
+![](img/054.png)
+
+- Establecemos un nombre a la regla `ftp`
+
+![](img/055.png)
+
+- Comprobamos que la regla está habilitada.
+
+![](img/056.png)
+
+### 6.2 Comprobamos desde navegador del cliente el FTP<a name=8></a>
+
+Escribimos la dirección IP del servidor `ftp` y comprobamos que podemos acceder a los recursos compartidos, antes nos pide una autenticación del usuario `ftpuser`.
+
+![](img/061.png)
+
+- Realizamos el mismo procedimiento pero con nombre y comprobamos que funciona correctamente.
+
+![](img/062.png)
+
+- Podemos visualizar las carpetas que tiene acceso el usuario `ftpuser`
+
+![](img/063.png)
+
+### 6.3 Comprobamos desde un cliente FTP-Filezilla<a name=9></a>
+
+Ejecutamos el programa cliente de filezilla en nuestro equipo cliente y solo tenemos que establecer la `dirección IP o subdominio`, escribimos el usuario con su contraseña y accedemos a su directorio.
+
+![](img/064.png)
+
+## 7. Instalación y Configuracion de Drupal 7.56<a name=10></a>
+
+Lo primero que tenemos que realizar es ir a la página oficial de drupal y descargar la siguiente versión `drupal 7.56`(Seleccionamos esa versión porque es compatible con nuestro php).
+
+![](img/065.png)
+
+- Guardamos el fichero de drupal, que viene comprimido en un zip.
+
+![](img/066.png)
+
+- Descomprimimos el fichero drupal.
+
+![](img/067.png)
+
+- Nos conectamos al cliente filezilla y buscamos la ruta donde Descomprimimos el fichero de `drupal` y lo pasamos al servidor.
+
+![](img/081.png)
+
+### 7.1 Creación de Base de Datos cms<a name=11></a>
+
+Primero tenemos que crear la base de datos `cms`
+
+![](img/069.png)
+
+- Creamos el usuario cms.
+
+![](img/070.png)
+
+- Se creo correctamente el usuario.
+
+![](img/071.png)
+
+- Establecemos privilegios al `usuario cms` para la base de datos `cms`
+
+![](img/072.png)
+
+### 7.2 Instalación de Drupal.<a name=12></a>
+
+Solo tenemos que ir al navegador del cliente y escribir la siguiente dirección Web. `www.miempresa.com`
+
+Seleccionamos por defecto la `standard`.
+
+![](img/073.png)
+
+- Tenemos que descargar de la página web que nos indicar `translation server` y descargamos nuestro idioma.
+
+![](img/089.png)
+
+Lo pasamos por filezilla al recurso compartido para `drupal`.
+
+- La ruta sería `profiles -> standard -> translations`
+
+![](img/078.png)
+
+- Recargamos la página.
+
+![](img/074.png)
+
+- Seleccionamos el idioma.
+
+![](img/075.png)
+
+- Escribimos el nombre de la base de datos `cms` con el usuario `cms`
+
+![](img/076.png)
+
+- Esperamos que instale los módulos correspondientes.
+
+![](img/077.png)
+
+- Establecemos la información que nos pide.
+
+![](img/079.png)
+
+- Seguimos estableciendo la información que nos pide en el formulario y le damos guardar.
+
+![](img/082.png)
+
+- Ya tenemos configurado y instalado el `Drupal`.
+
+![](img/080.png)
+
+    Nota:
+
+    Problema al instalar el Drupal, tenemos que ir al fichero de
+    configuración `web.conf` y renombrarlo de la siguiente manera
+    `web.conf.old`.
+
+![](img/085.png)
+
+- Ya tenemos configurado y instalado el drupal en nuestro servidor y por lo tanto al acceder con nuestro dominio `www.miempresa.com` nos tiene que visualizar el contenido de drupal.
+
+![](img/083.png)
+
+- Instalación del modulo para traducir el contenido.
+
+![](img/084.png)
+
+- Tenemos que ir a la pestaña apariencia y Seleccionamos instalar tema nuevo.
+
+![](img/086.png)
+
+- Buscamos el tema de `zen`.
+
+![](img/087.png)
+
+- Buscamos en la misma página y descargamos el tema de `zen`.
+
+![](img/088.png)
+
+- Solo nos falta añadir el tema y demos darle activar y establecer como preterminado.
+
+![](img/090.png)
+
+- Tenemos el tema añadido y establecido como preterminado.
+
+![](img/091.png)
+
+- Comprobamos y visualizamos que es diferente al que viene por defecto en `drupal`
+
+![](img/092.png)
