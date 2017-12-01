@@ -14,6 +14,10 @@
     - [7.1 Creación de Base de DAtos cms](#11)
     - [7.2 Instalación Drupal](#12)
     - [7.3 Configurando el diseño de Drupal](#13)
+- [8. Instalación de WordPress](#14)
+
+
+![](img/000.png)
 
 
 ## 1. Instalación de PHP<a name=1></a>
@@ -441,3 +445,66 @@ También se pueden crear bloques y situarlos en cualquier lugar de la página. P
 Final de la página.
 
 ![](img/100.png)
+
+## 8. Instalación de WordPress<a name=14></a>
+
+Primero tenemos que agregar un sitio web llamado `blog.miempresa.com`
+
+![](img/102.png)
+
+
+Segundo tenemos que agregar un dns en el dominio de `empresa.com` llamado `blog`
+
+
+![](img/101.png)
+
+Creamos un usuario en el ftp llamado `WordPress` y le damos permisos total para modificar la carpeta de WordPress.
+
+![](img/105.png)
+
+Creamos una base de datos de WordPress y reutilizamos el usuario cms para que tenga privilegios en la base de datos `WordPress`.
+
+![](img/109.png)
+![](img/110.png)
+
+
+Descargamos de la página web del WordPress desde el equipo cliente y lo pasamos por `ftp`
+
+![](img/106.png)
+
+Entramos al navegador del cliente y escribimos lo siguiente `blog.miempresa.com` y comenzamos con la instalación de WordPress. Solo tenemos que seguir el asistente.
+
+![](img/104.png)
+
+- Descargamos el WordPress
+
+![](img/107.png)
+
+- Seleccionamos el idioma español.
+
+![](img/108.png)
+
+- Requisitos para instalar el WordPress
+
+![](img/111.png)
+
+- Nombre de la base de datos y el usuario.
+
+![](img/112.png)
+
+- Comienzo de la instalación de la WordPress
+
+![](img/113.png)
+
+- Usuario para administrar el WordPress
+
+![](img/114.png)
+
+- Ya podemos acceder al WordPress
+
+![](img/115.png)
+
+
+Termina la instalación y comprobamos como tenemos instalado el `WordPress`.
+
+![](img/116.png)
