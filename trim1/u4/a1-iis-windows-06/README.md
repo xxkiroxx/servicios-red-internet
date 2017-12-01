@@ -13,6 +13,7 @@
 - [7. Instalación y Configuración de Drupal](#10)
     - [7.1 Creación de Base de DAtos cms](#11)
     - [7.2 Instalación Drupal](#12)
+    - [7.3 Configurando el diseño de Drupal](#13)
 
 
 ## 1. Instalación de PHP<a name=1></a>
@@ -408,3 +409,35 @@ Lo pasamos por filezilla al recurso compartido para `drupal`.
 - Comprobamos y visualizamos que es diferente al que viene por defecto en `drupal`
 
 ![](img/092.png)
+
+### 7.3 Configurando el diseño de Drupal<a name=13></a>
+
+Vamos a crear un artículo en `drupal`. Para ello nos dirigimos al menú superior, pulsamos en contenido y clic en agregar contenido.
+
+![](img/093.png)
+
+Podemos ver el contenido creado.
+
+![](img/094.png)
+
+Comprobamos que podemos crear varios artículos a la vez.
+
+![](img/095.png)
+
+![](img/096.png)
+
+Vamos agregar un menú, en que se muestran los enlaces importantes de nuestra página web.
+
+![](img/097.png)
+
+Añadimos un titulo y una pequeña descripción. Pulsamos en guardar y podemos gestionar nuestro menú.
+
+![](img/098.png)
+
+También se pueden crear bloques y situarlos en cualquier lugar de la página. Por ejemplo nosotros lo situaremos en el lateral izquierdo.
+
+![](img/099.png)
+
+Final de la página.
+
+![](img/100.png)
