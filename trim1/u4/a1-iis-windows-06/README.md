@@ -470,13 +470,14 @@ Creamos una base de datos de WordPress y reutilizamos el usuario cms para que te
 
 Descargamos de la página web del WordPress desde el equipo cliente y lo pasamos por `ftp`
 
+![](img/104.png)
+
+- Pasamos `WordPress` descomprimido por ftp. 
+
 ![](img/106.png)
 
 Entramos al navegador del cliente y escribimos lo siguiente `blog.miempresa.com` y comenzamos con la instalación de WordPress. Solo tenemos que seguir el asistente.
 
-![](img/104.png)
-
-- Descargamos el WordPress
 
 ![](img/107.png)
 
