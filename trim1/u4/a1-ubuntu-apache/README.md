@@ -735,36 +735,209 @@ roberto@serverob:/var/www/pagos$
 
 ## Carpetas Privadas
 
+Tenemos que crear y escribir dentro de .htaccess los siguiente.
+
 ```console
-roberto@serverob:/etc/apache2$ ls -la
-total 104
-drwxr-xr-x   8 root root  4096 dic 12 13:27 .
-drwxr-xr-x 133 root root 12288 dic 12 12:20 ..
--rw-r--r--   1 root root  7115 mar 19  2016 apache2.conf
-drwxr-xr-x   2 root root  4096 dic  5 13:41 conf-available
-drwxr-xr-x   2 root root  4096 dic  5 12:46 conf-enabled
--rw-r--r--   1 root root  1782 mar 19  2016 envvars
--rw-r--r--   1 root root     0 dic 12 13:27 .htpasswd
--rw-r--r--   1 root root 31063 mar 19  2016 magic
-drwxr-xr-x   2 root root 12288 dic  5 13:45 mods-available
-drwxr-xr-x   2 root root  4096 dic 12 12:54 mods-enabled
--rw-r--r--   1 root root   320 mar 19  2016 ports.conf
--rw-r--r--   1 root root  1013 dic 12 12:44 server.crt
--rw-r--r--   1 root root   963 dic 12 12:44 server.key
-drwxr-xr-x   2 root root  4096 dic 12 13:18 sites-available
-drwxr-xr-x   2 root root  4096 dic 12 12:43 sites-enabled
-roberto@serverob:/etc/apache2$ htpasswd -c .htpasswd kevin
-htpasswd: cannot open file .htpasswd for read/write access
-roberto@serverob:/etc/apache2$ sudo htpasswd -c .htpasswd kevin
+roberto@serverob:/var/www/empleados$ cat .htaccess
+AuthName "Es necesario Autentificarse"
+AuthType Basic
+AuthUserFile /var/www/empleados
+require valid-user
+roberto@serverob:/var/www/empleados$
+
+```
+Tenemos que crear las siguientes contraseñas y usuarios y el fichero se llamara .htpasswd.
+
+```console
+roberto@serverob:/var/www/empleados$ sudo htpasswd -c .htpasswd kevin
 New password:
 Re-type new password:
 Adding password for user kevin
-roberto@serverob:/etc/apache2$ sudo htpasswd .htpasswd admin
+roberto@serverob:/var/www/empleados$ sudo htpasswd .htpasswd roberto
 New password:
 Re-type new password:
-Adding password for user admin
-roberto@serverob:/etc/apache2$ sudo cat .htpasswd
-kevin:$apr1$qNKaXYhX$M2HFlWueH3D5fIJldAito/
-admin:$apr1$Jw.NS8cg$WpO2Hc7.gloX7q9hu9Jrq0
-roberto@serverob:/etc/apache2$
+Adding password for user roberto
+roberto@serverob:/var/www/empleados$ sudo htpasswd .htpasswd oscar
+New password:
+Re-type new password:
+Adding password for user oscar
+
+```
+Comprobamos con el comando tree -a para visualizar todo los ficheros de configuración creados.
+
+```console
+roberto@serverob:/var/www/empleados$ tree -a
+.
+├── comercial
+│   ├── .htaccess
+│   └── .htpasswd
+├── .htaccess
+├── .htpasswd
+├── index.html
+├── tecnico
+│   ├── .htaccess
+│   └── .htpasswd
+└── tienda
+    ├── .htaccess
+    └── .htpasswd
+
+3 directories, 9 files
+roberto@serverob:/var/www/empleados$
+
+```
+
+## 6. Instalación de MySQL
+
+Tenemos que instalar la base de datos de MySQL.
+
+```console
+roberto@serverob:~$ sudo apt install mysql-server
+[sudo] password for roberto:
+Leyendo lista de paquetes... Hecho
+Creando árbol de dependencias       
+Leyendo la información de estado... Hecho
+Se instalarán los siguientes paquetes adicionales:
+  libaio1 libevent-core-2.0-5 libhtml-template-perl mysql-client-5.7
+  mysql-client-core-5.7 mysql-common mysql-server-5.7 mysql-server-core-5.7
+Paquetes sugeridos:
+  libipc-sharedcache-perl mailx tinyca
+Se instalarán los siguientes paquetes NUEVOS:
+  libaio1 libevent-core-2.0-5 libhtml-template-perl mysql-client-5.7
+  mysql-client-core-5.7 mysql-common mysql-server mysql-server-5.7
+  mysql-server-core-5.7
+0 actualizados, 9 nuevos se instalarán, 0 para eliminar y 369 no actualizados.
+Se necesita descargar 18,6 MB de archivos.
+Se utilizarán 161 MB de espacio de disco adicional después de esta operación.
+¿Desea continuar? [S/n] s
+Des:1 http://es.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-common all 5.7.20-0ubuntu0.16.04.1 [15,6 kB]
+Des:2 http://es.archive.ubuntu.com/ubuntu xenial/main amd64 libaio1 amd64 0.3.110-2 [6.356 B]
+Des:3 http://es.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-client-core-5.7 amd64 5.7.20-0ubuntu0.16.04.1 [6.339 kB]
+Des:4 http://es.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-client-5.7 amd64 5.7.20-0ubuntu0.16.04.1 [1.675 kB]
+Des:5 http://es.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-server-core-5.7 amd64 5.7.20-0ubuntu0.16.04.1 [7.670 kB]
+Des:6 http://es.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libevent-core-2.0-5 amd64 2.0.21-stable-2ubuntu0.16.04.1 [70,6 kB]
+Des:7 http://es.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-server-5.7 amd64 5.7.20-0ubuntu0.16.04.1 [2.708 kB]
+Des:8 http://es.archive.ubuntu.com/ubuntu xenial/main amd64 libhtml-template-perl all 2.95-2 [60,4 kB]
+Des:9 http://es.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-server all 5.7.20-0ubuntu0.16.04.1 [10,2 kB]
+Descargados 18,6 MB en 3s (4.958 kB/s)
+Preconfigurando paquetes ...
+Seleccionando el paquete mysql-common previamente no seleccionado.
+(Leyendo la base de datos ... 208018 ficheros o directorios instalados actualmente.)
+Preparando para desempaquetar .../mysql-common_5.7.20-0ubuntu0.16.04.1_all.deb ...
+Desempaquetando mysql-common (5.7.20-0ubuntu0.16.04.1) ...
+Seleccionando el paquete libaio1:amd64 previamente no seleccionado.
+Preparando para desempaquetar .../libaio1_0.3.110-2_amd64.deb ...
+Desempaquetando libaio1:amd64 (0.3.110-2) ...
+Seleccionando el paquete mysql-client-core-5.7 previamente no seleccionado.
+Preparando para desempaquetar .../mysql-client-core-5.7_5.7.20-0ubuntu0.16.04.1_amd64.deb ...
+Desempaquetando mysql-client-core-5.7 (5.7.20-0ubuntu0.16.04.1) ...
+Seleccionando el paquete mysql-client-5.7 previamente no seleccionado.
+Preparando para desempaquetar .../mysql-client-5.7_5.7.20-0ubuntu0.16.04.1_amd64.deb ...
+Desempaquetando mysql-client-5.7 (5.7.20-0ubuntu0.16.04.1) ...
+Seleccionando el paquete mysql-server-core-5.7 previamente no seleccionado.
+Preparando para desempaquetar .../mysql-server-core-5.7_5.7.20-0ubuntu0.16.04.1_amd64.deb ...
+Desempaquetando mysql-server-core-5.7 (5.7.20-0ubuntu0.16.04.1) ...
+Seleccionando el paquete libevent-core-2.0-5:amd64 previamente no seleccionado.
+Preparando para desempaquetar .../libevent-core-2.0-5_2.0.21-stable-2ubuntu0.16.04.1_amd64.deb ...
+Desempaquetando libevent-core-2.0-5:amd64 (2.0.21-stable-2ubuntu0.16.04.1) ...
+Procesando disparadores para libc-bin (2.23-0ubuntu9) ...
+Procesando disparadores para man-db (2.7.5-1) ...
+Configurando mysql-common (5.7.20-0ubuntu0.16.04.1) ...
+update-alternatives: utilizando /etc/mysql/my.cnf.fallback para proveer /etc/mysql/my.cnf (my.cnf) en modo automático
+Seleccionando el paquete mysql-server-5.7 previamente no seleccionado.
+(Leyendo la base de datos ... 208186 ficheros o directorios instalados actualmente.)
+Preparando para desempaquetar .../mysql-server-5.7_5.7.20-0ubuntu0.16.04.1_amd64.deb ...
+Desempaquetando mysql-server-5.7 (5.7.20-0ubuntu0.16.04.1) ...
+Seleccionando el paquete libhtml-template-perl previamente no seleccionado.
+Preparando para desempaquetar .../libhtml-template-perl_2.95-2_all.deb ...
+Desempaquetando libhtml-template-perl (2.95-2) ...
+Seleccionando el paquete mysql-server previamente no seleccionado.
+Preparando para desempaquetar .../mysql-server_5.7.20-0ubuntu0.16.04.1_all.deb ...
+Desempaquetando mysql-server (5.7.20-0ubuntu0.16.04.1) ...
+Procesando disparadores para man-db (2.7.5-1) ...
+Procesando disparadores para systemd (229-4ubuntu10) ...
+Procesando disparadores para ureadahead (0.100.0-19) ...
+Configurando libaio1:amd64 (0.3.110-2) ...
+Configurando mysql-client-core-5.7 (5.7.20-0ubuntu0.16.04.1) ...
+Configurando mysql-client-5.7 (5.7.20-0ubuntu0.16.04.1) ...
+Configurando mysql-server-core-5.7 (5.7.20-0ubuntu0.16.04.1) ...
+Configurando libevent-core-2.0-5:amd64 (2.0.21-stable-2ubuntu0.16.04.1) ...
+Configurando mysql-server-5.7 (5.7.20-0ubuntu0.16.04.1) ...
+update-alternatives: utilizando /etc/mysql/mysql.cnf para proveer /etc/mysql/my.cnf (my.cnf) en modo automático
+Renaming removed key_buffer and myisam-recover options (if present)
+Configurando libhtml-template-perl (2.95-2) ...
+Configurando mysql-server (5.7.20-0ubuntu0.16.04.1) ...
+Procesando disparadores para libc-bin (2.23-0ubuntu9) ...
+Procesando disparadores para systemd (229-4ubuntu10) ...
+Procesando disparadores para ureadahead (0.100.0-19) ...
+roberto@serverob:~$
+```
+Ya tenemos instalado la base de datos de MySQL.
+
+- Instalamos el siguiente soporte para php
+
+```console
+roberto@serverob:~$ sudo apt install php-mysql
+Leyendo lista de paquetes... Hecho
+Creando árbol de dependencias       
+Leyendo la información de estado... Hecho
+Se instalarán los siguientes paquetes adicionales:
+  php7.0-mysql
+Se instalarán los siguientes paquetes NUEVOS:
+  php-mysql php7.0-mysql
+0 actualizados, 2 nuevos se instalarán, 0 para eliminar y 369 no actualizados.
+Se necesita descargar 126 kB de archivos.
+Se utilizarán 497 kB de espacio de disco adicional después de esta operación.
+¿Desea continuar? [S/n] s
+Des:1 http://es.archive.ubuntu.com/ubuntu xenial-updates/main amd64 php7.0-mysql amd64 7.0.22-0ubuntu0.16.04.1 [124 kB]
+Des:2 http://es.archive.ubuntu.com/ubuntu xenial/main amd64 php-mysql all 1:7.0+35ubuntu6 [1.936 B]
+Descargados 126 kB en 0s (221 kB/s)
+Seleccionando el paquete php7.0-mysql previamente no seleccionado.
+(Leyendo la base de datos ... 208287 ficheros o directorios instalados actualmente.)
+Preparando para desempaquetar .../php7.0-mysql_7.0.22-0ubuntu0.16.04.1_amd64.deb ...
+Desempaquetando php7.0-mysql (7.0.22-0ubuntu0.16.04.1) ...
+Seleccionando el paquete php-mysql previamente no seleccionado.
+Preparando para desempaquetar .../php-mysql_1%3a7.0+35ubuntu6_all.deb ...
+Desempaquetando php-mysql (1:7.0+35ubuntu6) ...
+Procesando disparadores para libapache2-mod-php7.0 (7.0.22-0ubuntu0.16.04.1) ...
+Procesando disparadores para php7.0-fpm (7.0.22-0ubuntu0.16.04.1) ...
+Configurando php7.0-mysql (7.0.22-0ubuntu0.16.04.1) ...
+
+Creating config file /etc/php/7.0/mods-available/mysqlnd.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/mysqli.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/pdo_mysql.ini with new version
+Configurando php-mysql (1:7.0+35ubuntu6) ...
+Procesando disparadores para libapache2-mod-php7.0 (7.0.22-0ubuntu0.16.04.1) ...
+Procesando disparadores para php7.0-fpm (7.0.22-0ubuntu0.16.04.1) ...
+roberto@serverob:~$
+
+```
+## 7. Instalación de PHPMyAdmin.
+
+Tenemos que ir a la página de PHPMyAdmin y instalamos la última versión en la siguiente ruta. <a name="https://www.phpmyadmin.net/downloads/">PHPMyAdmin</a>
+
+![](img/009.png)
+
+Tenemos descargado el fichero lo descomprimimos y le damos permisos de root y los movemos `/var/www`
+
+```console
+roberto@serverob:~/Descargas$ ls
+phpMyAdmin-4.7.6-all-languages  phpMyAdmin-4.7.6-all-languages.zip
+roberto@serverob:~/Descargas$ mv phpMyAdmin-4.7.6-all-languages phpmyadmin
+roberto@serverob:~/Descargas$ sudo mv phpmyadmin /var/www/
+roberto@serverob:~/Descargas$ ls -l /var/www/
+total 16
+drwxr-xr-x  5 root    root    4096 dic 14 08:41 empleados
+drwxr-xr-x  2 root    root    4096 dic  5 13:45 html
+drwxr-xr-x  2 root    root    4096 dic 12 12:58 pagos
+drwxr-xr-x 12 roberto roberto 4096 nov 29 19:21 phpmyadmin
+roberto@serverob:~/Descargas$ sudo chown root:root /var/www/phpmyadmin/
+roberto@serverob:~/Descargas$ ls -l /var/www/
+total 16
+drwxr-xr-x  5 root root 4096 dic 14 08:41 empleados
+drwxr-xr-x  2 root root 4096 dic  5 13:45 html
+drwxr-xr-x  2 root root 4096 dic 12 12:58 pagos
+drwxr-xr-x 12 root root 4096 nov 29 19:21 phpmyadmin
+roberto@serverob:~/Descargas$
 ```
