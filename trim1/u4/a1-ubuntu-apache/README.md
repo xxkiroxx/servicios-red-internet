@@ -735,56 +735,42 @@ roberto@serverob:/var/www/pagos$
 
 ## Carpetas Privadas
 
-Tenemos que crear y escribir dentro de .htaccess los siguiente.
+Vamos a crear ahora un sitio web con carpetas privadas, este reutilizara el virtual host `empleados.miempresa.com`. Para comenzar vamos a generar el fichero `/var/www/empleados/.htaccess` para configurar donde se guardaran las claves de acceso.
 
-```console
-roberto@serverob:/var/www/empleados$ cat .htaccess
-AuthName "Es necesario Autentificarse"
-AuthType Basic
-AuthUserFile /var/www/empleados
-require valid-user
-roberto@serverob:/var/www/empleados$
+![](img/040.png)
 
-```
-Tenemos que crear las siguientes contraseñas y usuarios y el fichero se llamara .htpasswd.
+Como se ve en la imagen vamos a generar el archivo `/var/claves` para guardar la clave de todos los usuarios, para ello vamos a utilizar el comando `htpasswd -c /var/claves "nombre-usuario"`, al ejecutar este comando directamente nos solicita la contraseña del mismo.
 
-```console
-roberto@serverob:/var/www/empleados$ sudo htpasswd -c .htpasswd kevin
-New password:
-Re-type new password:
-Adding password for user kevin
-roberto@serverob:/var/www/empleados$ sudo htpasswd .htpasswd roberto
-New password:
-Re-type new password:
-Adding password for user roberto
-roberto@serverob:/var/www/empleados$ sudo htpasswd .htpasswd oscar
-New password:
-Re-type new password:
-Adding password for user oscar
+![](img/041.png)
 
-```
-Comprobamos con el comando tree -a para visualizar todo los ficheros de configuración creados.
+Para añadir más usuarios a ese archivo utilizaremos el mismo comando sin utilizar el argumento `-c`.
 
-```console
-roberto@serverob:/var/www/empleados$ tree -a
-.
-├── comercial
-│   ├── .htaccess
-│   └── .htpasswd
-├── .htaccess
-├── .htpasswd
-├── index.html
-├── tecnico
-│   ├── .htaccess
-│   └── .htpasswd
-└── tienda
-    ├── .htaccess
-    └── .htpasswd
+![](img/042.png)
 
-3 directories, 9 files
-roberto@serverob:/var/www/empleados$
+![](img/043.png)
 
-```
+Vamos a crear varias carpetas para los usuarios, cada una de ella contendrá un `index.html`.
+
+![](img/044.png)
+
+![](img/045.png)
+
+En cada uno de los usuarios vamos a generar un nuevo `.htaccess` con el cual solo permitir a el usuario a su carpeta.
+
+![](img/046.png)
+
+![](img/047.png)
+
+Lo mismo lo vamos a generar con los demás usuarios.
+
+![](img/048.png)
+
+![](img/049.png)
+
+![](img/050.png)
+
+
+
 
 ## 6. Instalación de MySQL
 
