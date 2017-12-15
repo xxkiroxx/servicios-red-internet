@@ -2762,5 +2762,6 @@ roberto@serverob:/var/www/html$
 
 ![](img/017.png)
 
-- 
+- Comprobamos que podemos acceder al wordpress y ver las plantillas.
+
 ![](img/018.png)
