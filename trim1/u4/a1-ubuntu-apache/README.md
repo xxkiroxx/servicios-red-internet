@@ -1,5 +1,7 @@
 # Ubuntu Servicio Web Apache2
 
+![](img/000.jpg)
+
 ## 1. Instalación de Apache2
 
 Primero realizamos un update de los repositiorios de ubuntu.
