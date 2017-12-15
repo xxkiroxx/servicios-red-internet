@@ -733,7 +733,7 @@ roberto@serverob:/var/www/pagos$
 ![](img/007.png)
 
 
-## Carpetas Privadas
+## 5. Carpetas Privadas
 
 Vamos a crear ahora un sitio web con carpetas privadas, este reutilizara el virtual host `empleados.miempresa.com`. Para comenzar vamos a generar el fichero `/var/www/empleados/.htaccess` para configurar donde se guardaran las claves de acceso.
 
@@ -769,7 +769,41 @@ Lo mismo lo vamos a generar con los demás usuarios.
 
 ![](img/050.png)
 
+> En cada subcarpeta solo podrá acceder el usuario con el mismo nombre que esa carpeta.
 
+Lo último que tenemos que configurar será el fichero `/etc/apache/sites_availible/empleados.conf` añadiendo la opción `AllowOverride all`.
+
+![](img/051.png)
+
+### 5.1. Comprobaciones
+
+En este apartado vamos a comprobar que efectivamente al intentar acceder a él sitio `empleados.miempresa.com` nos solicita una autenticación.
+
+![](img/053.png)
+
+Entrando con cualquiera de los usuarios creados podemos acceder a la página principal.
+
+![](img/054.png)
+
+Aprovechando que nos hemos logeado con el usuario `eric` podemos comprobar que podemos acceder también a su subcarpeta.
+
+![](img/055.png)
+
+En el caso de que queramos acceder a la carpeta de otro usuario nos pedirá nuevamente una autenticación, probemos con el usuario `stan`.
+
+![](img/056.png)
+
+![](img/057.png)
+
+Lo mismo sucederá con el resto de usuarios.
+
+![](img/058.png)
+
+![](img/059.png)
+
+Si volvemos a acceder a `empleados.miempresa.com` podemos comprobar que el usuario `kyle` tiene permiso, al igual que tenía el usuario `eric`.
+
+![](img/060.png)
 
 
 ## 6. Instalación de MySQL
@@ -931,7 +965,10 @@ roberto@serverob:~/Descargas$
 - Tenemos que crear un virtual host para phpmyadmin y crear un enlace simbolico en /etc/apache2/sities-enable
 
 ```console
-oberto@serverob:/var/www$ sudo ln -s /etc/apache2/sites-available/phpmyadmin.conf /etc/apache2/sites-enabled/
+roberto@serverob:/var/www$ sudo a2ensite phpmyadmin
+Enabling site phpmyadmin.
+To activate the new configuration, you need to run:
+ service apache2 reload
 roberto@serverob:/var/www$ sudo cat /etc/apache2/sites-available/phpmyadmin.conf
 <VirtualHost *:80>
 
@@ -978,11 +1015,34 @@ dic 15 08:38:04 serverob systemd[1]: Started LSB: Apache2 web server.
 roberto@serverob:/var/www$
 ```
 
-- Comprobamos con un navegador que podemos ver la aplicación por web de `phpmyadmin`
+- Comprobamos con un navegador que podemos ver la aplicación por web de `phpmyadmin`.
+
+  ![](img/070.png)
+
+  ![](img/071.png)
+
+- Vamos a crear una base de datos nueva llamada `cms` que utilizaremos próximamente en la instalación de `wordpress`.
+
+  ![](img/072.png)
+
+- Aparte de la base de datos vamos a necesitar un usuario que la gestione, por ello creamos el usuario `cms`.
+
+  ![](img/073.png)
+
+  ![](img/074.png)
+
+- Para añadirle permisos sobre la base de datos creada en este punto ejecutamos el comando `grant all on cms.* to 'cms'@'%';` desde el apartado `SQL` en **phpMyAdmin**.
+
+  ![](img/075.png)
+
+- Podemos comprobar que los permisos se han configurado correctamente se accedemos a phpMyAdmin con el usuario `cms`. En este podemos visualizar la base de datos.
+
+  ![](img/076.png)
+
+  ![](img/077.png)
 
 
-
-## Instalación de Wordpress
+## 8. Instalación de Wordpress
 
 Tenemos que ir a la página oficial de Wordpress y descargamos la aplicación.
 
@@ -2725,14 +2785,13 @@ roberto@serverob:/var/www/html$
 ```
 - Abrimos un navegador y comenzamos con la instalación.
 
-
 ![](img/012.png)
 
 - Comenzamos con la instalación.
 
 ![](img/013.png)
 
-- Establecemos la base de datos que teniamos creada `cms` con el usuario `cms`
+- Establecemos la base de datos que teníamos creada `cms` con el usuario `cms`
 
 ![](img/014.png)
 
@@ -2740,11 +2799,11 @@ roberto@serverob:/var/www/html$
 
 ![](img/015.png)
 
-- Ya tenemos instalado el `Wordpress`
+- Ya tenemos instalado el `Wordpress`.
 
 ![](img/016.png)
 
-- Accedemos al Wordpress
+- Accedemos al Wordpress.
 
 ![](img/017.png)
 
