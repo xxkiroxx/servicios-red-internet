@@ -1,8 +1,8 @@
 # Webmin
 
-![](img/000.png)
+![Imagen](img/000.png)
 
-## Instalación de Webmin
+## 1. Instalación de Webmin
 
 Primero tenemos que descargar de la página oficial el `webmin`.
 
@@ -97,3 +97,103 @@ Procesando disparadores para ureadahead (0.100.0-19) ...
 roberto@serverob:~/Descargas$
 
 ```
+
+## 2. Uso de webmin
+
+Una vez hemos instalado webmin podemos empezar a utilizarlo accediendo desde un navegador. Webmin por defecto utiliza acceso mediante `https` y el puerto `10000`.
+
+![Imagen](./img/001.png)
+
+Al este utilizar un certificado autofirmado nos indica que el acceso no es seguro, por lo que debemos añadir una excepción para esta conexión.
+
+![Imagen](./img/002.png)
+
+Vemos que después de permitirlo nos pide un usuario y contraseña para acceder a la aplicación, estos usuarios utilizan a los usuarios de `UNIX`, por lo que utilizaremos el usuario de nuestra máquina.
+
+![Imagen](./img/010.png)
+
+Una vez hemos conseguido acceder podemos empezar a gestionar diferentes servicios que nuestra máquina dispone, podemos acceder a estos a través de la barra lateral.
+
+![Imagen](./img/011.png)
+
+Como para nuestro caso nos interesa administrar el servidor web apache, las bases de datos mysql y nuestro servidor DNS BIND, accederemos a la pestaña `Servers`. En este pestaña Webmin detectara los servicios que están agregados actualmente en nuestro servidor y podemos gestionar cada uno de ellos fácilmente.
+
+![Imagen](./img/012.png)
+
+### 2.1 Gestionar Apache desde Webmin
+
+Pinchando en la opción `Apache Webserver` podemos editar las opciones de nuestro servidor. En la primera pestaña nos mostrara la configuración global, en la parte superior también encontraremos distintos botones con los que podemos actualizar nuestros cambios o arrancar y parar el servidor web.
+
+![Imagen](./img/027.png)
+
+En la segunda pestaña podemos visualizar los virtual host que ya tenemos creados en nuestro servidor, en la captura se pueden llegar a ver los sitios web `pagos`, `empleados` y `phpmyadmin` que utilizamos en la práctica anterior. Desde aquí también podremos modificar estos virtual host o eliminarlos.
+
+![Imagen](./img/013.png)
+
+En la última pestaña podemos crear nuevos virtual hosts.
+
+![Imagen](./img/026.png)
+
+### 2.2. Gestionar BIND DNS server desde Webmin
+
+Al igual que con el servidor apache, en el caso del servidor DNS nos encontraremos con una interfaz en la que podemos modificar las opciones globales del servicio, así como unos botones en la parte superior que nos permiten guardar los cambios realizados y parar o arrancar el servicio.
+
+![Imagen](./img/014.png)
+
+En la captura también se puede apreciar que aparecen las zonas que hemos ya hemos creado, así como diferentes botones que nos permiten crear zonas nuevas. Si accedemos a la master zone que creamos para la practica anterior (`miempresa.edu`), encontraremos diferentes botones que nos permiten saber los registros de la zona.
+
+![Imagen](./img/015.png)
+
+Seleccionando `All record Types` podemos ver todos los registros de la zona. Desde aquí podemos eliminarlos si queremos.
+
+![Imagen](./img/016.png)
+
+Para añadir elementos tendremos que acceder a la opción de cada tipo de registro.
+
+- Registro tipo `A`:
+
+  ![Imagen](./img/018.png)
+
+  ![Imagen](./img/017.png)
+
+  > Aquí podemos ver los registros tipo `A` de nuestro servidor, borrarlos, editarlos, o añadir nuevos registros.
+
+- Registro tipo `Alias`:
+
+  ![Imagen](./img/019.png)
+
+  ![Imagen](./img/020.png)
+
+También disponemos de otras opciones en la zona maestra que nos permitirán congelarla, eliminarla o transformarla en una `Slave zone`.
+
+![Imagen](./img/021.png)
+
+### 2.3. Gestionar mysql desde Webmin
+
+Para poder acceder al servidor mysql nos pedirá primero un usuario administrador.
+
+![Imagen](./img/024.png)
+
+Desde aquí podremos gestionar nuestras bases de datos y las opciones globales del servidor.
+
+![Imagen](./img/025.png)
+
+## 3. Otras opciones de Webmin
+
+Aparte de gestionar nuestros servicios también podemos utilizar webmin para otros propósitos como podrían ser:
+
+- Saber los recursos que esta consumiendo nuestro servidor.
+
+  ![Imagen](./img/004.png)
+
+- Comprobar las particiones de nuestro disco.
+
+  ![Imagen](./img/028.png)
+
+- Instalar nuevos módulos utilizando la opción `unused modules`.
+
+También podemos modificar algunos parámetros de webmin como puede ser el tema de la aplicación o el idioma de los menús.
+
+![Imagen](./img/009.png)
+
+Una vez dicho esto podemos dar por finalizada la actividad.  
