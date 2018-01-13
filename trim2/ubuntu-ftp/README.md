@@ -102,6 +102,616 @@ En un instante de la instalación nos pedirá que seleccionemos dos opciones.
 - `Inetd`: Para pocas conexiones diarias.
 - `Independiente`: Para muchas conexiones diarias.
 
+### 2.1 Añadir en el DNS bind el alias ftp.miempresa.edu
+
+Solo tenemos que ir al fichero de configuración de bind `/etc/bind/db.miempresa.edu`
+
+```console
+kevin@serverob:~$ sudo cat /etc/bind/db.miempresa
+
+;
+; BIND data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	miempresa.edu. root.miempresa.edu. (
+			3
+			604800
+			86400
+			2419200
+			604800 )
+;
+
+@				IN	NS		miempresa.edu.
+@				IN	A		172.18.22.1
+@				IN	MX	0	miempresa.edu.
+server				IN	A		172.18.22.1
+www.miempresa.edu.		IN	CNAME		miempresa.edu.
+pagos.miempresa.edu.		IN	CNAME		miempresa.edu.
+phpmyadmin.miempresa.edu.	IN	CNAME		miempresa.edu.
+empleados.miempresa.edu.	IN	CNAME		miempresa.edu.
+ftp.miempresa.edu.		IN	CNAME		miempresa.edu.
+kevin@serverob:~$ nslookup ftp.miempresa.edu
+Server:		172.18.22.1
+Address:	172.18.22.1#53
+
+** server can't find ftp.miempresa.edu: NXDOMAIN
+
+kevin@serverob:~$ nslookup ftp.miempresa.edu
+Server:		172.18.22.1
+Address:	172.18.22.1#53
+
+** server can't find ftp.miempresa.edu: NXDOMAIN
+
+kevin@serverob:~$ sudo systemctl restart bind9
+Enter passphrase for SSL/TLS keys for pagos.miempresa.com:443 (RSA): *********
+kevin@serverob:~$ nslookup ftp.miempresa.edu
+Server:		172.18.22.1
+Address:	172.18.22.1#53
+
+ftp.miempresa.edu	canonical name = miempresa.edu.
+Name:	miempresa.edu
+Address: 172.18.22.1
+
+kevin@serverob:~$
+```
+
+### 1.2 Comprobar el fichero proftpd.conf
+
+Tenemos que ir a la siguiente ruta `/etc/proftpd`
+
+```console
+kevin@serverob:~$ sudo scp scp?.txt kevin@172.18.22.1:/tmp
+kevin@172.18.22.1's password:
+scp1.txt                                      100%    0     0.0KB/s   00:00    
+scp2.txt                                      100%    0     0.0KB/s   00:00    
+scp3.txt                                      100%    0     0.0KB/s   00:00    
+kevin@serverob:~$ sudo scp scp?.txt suso@172.18.22.1:/tmp
+suso@172.18.22.1's password:
+scp: /tmp/scp1.txt: Permission denied
+scp: /tmp/scp2.txt: Permission denied
+scp: /tmp/scp3.txt: Permission denied
+kevin@serverob:~$ ls -l /tmp/
+total 8
+-rw------- 1 kevin kevin    0 ene 13 11:39 config-err-76NOz2
+-rw-rw-r-- 1 kevin kevin    0 ene 13 11:49 scp1.txt
+-rw-rw-r-- 1 kevin kevin    0 ene 13 11:49 scp2.txt
+-rw-rw-r-- 1 kevin kevin    0 ene 13 11:49 scp3.txt
+drwx------ 3 root  root  4096 ene 13 11:18 systemd-private-feb28b88fc3246358c0616864e7abd13-colord.service-jSgaPc
+drwx------ 3 root  root  4096 ene 13 11:18 systemd-private-feb28b88fc3246358c0616864e7abd13-rtkit-daemon.service-gYy6tx
+-rw-rw-r-- 1 kevin kevin    0 ene 13 11:39 unity_support_test.1
+kevin@serverob:~$
+```
+- Comprobamos el fichero de configuración de proftpd
+
+```console
+kevin@serverob:/etc/proftpd$ sudo more proftpd.conf
+#
+# /etc/proftpd/proftpd.conf -- This is a basic ProFTPD configuration file.
+# To really apply changes, reload proftpd after modifications, if
+# it runs in daemon mode. It is not required in inetd/xinetd mode.
+#
+
+# Includes DSO modules
+Include /etc/proftpd/modules.conf
+
+# Set off to disable IPv6 support which is annoying on IPv4 only boxes.
+UseIPv6				on
+# If set on you can experience a longer connection delay in many cases.
+IdentLookups			off
+
+ServerName			"Debian"
+ServerType			standalone
+DeferWelcome			off
+
+MultilineRFC2228		on
+DefaultServer			on
+ShowSymlinks			on
+
+TimeoutNoTransfer		600
+TimeoutStalled			600
+TimeoutIdle			1200
+
+DisplayLogin                    welcome.msg
+DisplayChdir               	.message true
+ListOptions                	"-l"
+
+DenyFilter			\*.*/
+
+# Use this to jail all users in their homes
+# DefaultRoot			~
+
+# Users require a valid shell listed in /etc/shells to login.
+# Use this directive to release that constrain.
+# RequireValidShell		off
+
+# Port 21 is the standard FTP port.
+Port				21
+
+# In some cases you have to specify passive ports range to by-pass
+# firewall limitations. Ephemeral ports can be used for that, but
+# feel free to use a more narrow range.
+# PassivePorts                  49152 65534
+
+# If your host was NATted, this option is useful in order to
+# allow passive tranfers to work. You have to use your public
+# address and opening the passive ports used on your firewall as well.
+# MasqueradeAddress		1.2.3.4
+
+# This is useful for masquerading address with dynamic IPs:
+# refresh any configured MasqueradeAddress directives every 8 hours
+<IfModule mod_dynmasq.c>
+# DynMasqRefresh 28800
+</IfModule>
+
+# To prevent DoS attacks, set the maximum number of child processes
+# to 30.  If you need to allow more than 30 concurrent connections
+# at once, simply increase this value.  Note that this ONLY works
+# in standalone mode, in inetd mode you should use an inetd server
+# that allows you to limit maximum number of processes per service
+# (such as xinetd)
+MaxInstances			30
+
+# Set the user and group that the server normally runs at.
+User				proftpd
+Group				nogroup
+
+# Umask 022 is a good standard umask to prevent new files and dirs
+# (second parm) from being group and world writable.
+Umask				022  022
+# Normally, we want files to be overwriteable.
+AllowOverwrite			on
+
+# Uncomment this if you are using NIS or LDAP via NSS to retrieve passwords:
+# PersistentPasswd		off
+
+# This is required to use both PAM-based authentication and local passwords
+# AuthOrder			mod_auth_pam.c* mod_auth_unix.c
+
+# Be warned: use of this directive impacts CPU average load!
+# Uncomment this if you like to see progress and transfer rate with ftpwho
+# in downloads. That is not needed for uploads rates.
+#
+# UseSendFile			off
+
+TransferLog /var/log/proftpd/xferlog
+SystemLog   /var/log/proftpd/proftpd.log
+
+# Logging onto /var/log/lastlog is enabled but set to off by default
+#UseLastlog on
+
+# In order to keep log file dates consistent after chroot, use timezone info
+# from /etc/localtime.  If this is not set, and proftpd is configured to
+# chroot (e.g. DefaultRoot or <Anonymous>), it will use the non-daylight
+# savings timezone regardless of whether DST is in effect.
+#SetEnv TZ :/etc/localtime
+
+<IfModule mod_quotatab.c>
+QuotaEngine off
+</IfModule>
+
+<IfModule mod_ratio.c>
+Ratios off
+</IfModule>
+
+
+# Delay engine reduces impact of the so-called Timing Attack described in
+# http://www.securityfocus.com/bid/11430/discuss
+# It is on by default.
+<IfModule mod_delay.c>
+DelayEngine on
+</IfModule>
+
+<IfModule mod_ctrls.c>
+ControlsEngine        off
+ControlsMaxClients    2
+ControlsLog           /var/log/proftpd/controls.log
+ControlsInterval      5
+ControlsSocket        /var/run/proftpd/proftpd.sock
+</IfModule>
+
+<IfModule mod_ctrls_admin.c>
+AdminControlsEngine off
+</IfModule>
+
+#
+# Alternative authentication frameworks
+#
+#Include /etc/proftpd/ldap.conf
+#Include /etc/proftpd/sql.conf
+
+#
+# This is used for FTPS connections
+#
+#Include /etc/proftpd/tls.conf
+
+#
+# Useful to keep VirtualHost/VirtualRoot directives separated
+#
+#Include /etc/proftpd/virtuals.conf
+
+# A basic anonymous configuration, no upload directories.
+
+# <Anonymous ~ftp>
+#   User				ftp
+#   Group				nogroup
+#   # We want clients to be able to login with "anonymous" as well as "ftp"
+#   UserAlias			anonymous ftp
+#   # Cosmetic changes, all files belongs to ftp user
+#   DirFakeUser	on ftp
+#   DirFakeGroup on ftp
+#
+#   RequireValidShell		off
+#
+#   # Limit the maximum number of anonymous logins
+#   MaxClients			10
+#
+#   # We want 'welcome.msg' displayed at login, and '.message' displayed
+#   # in each newly chdired directory.
+#   DisplayLogin			welcome.msg
+#   DisplayChdir		.message
+#
+#   # Limit WRITE everywhere in the anonymous chroot
+#   <Directory *>
+#     <Limit WRITE>
+#       DenyAll
+#     </Limit>
+#   </Directory>
+#
+#   # Uncomment this if you're brave.
+#   # <Directory incoming>
+#   #   # Umask 022 is a good standard umask to prevent new files and dirs
+#   #   # (second parm) from being group and world writable.
+#   #   Umask				022  022
+#   #            <Limit READ WRITE>
+#   #            DenyAll
+#   #            </Limit>
+#   #            <Limit STOR>
+#   #            AllowAll
+#   #            </Limit>
+#   # </Directory>
+#
+# </Anonymous>
+
+# Include other custom configuration files
+Include /etc/proftpd/conf.d/
+kevin@serverob:/etc/proftpd$
+```
+
+### 1.2.1 Conexión al proftpd mediante el equipo cliente.
+
+Comprobamos con el usuario administrador `kevin`
+
+- Podemos acceder al home y también a la raíz de `/`
+
+```console
+roberto@clienterob:~$ ftp ftp.miempresa.edu
+Connected to miempresa.edu.
+220 ProFTPD 1.3.5a Server (Debian) [::ffff:172.18.22.1]
+Name (ftp.miempresa.edu:roberto): kevin
+331 ContraseÃ±a necesaria para kevin
+Password:
+230 Usuario kevin conectado
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Descargas
+-rw-rw-r--   1 kevin    kevin          22 Jan 13 11:28 descarga.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Documentos
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Escritorio
+-rw-r--r--   1 kevin    kevin        8980 Jan 12 10:19 examples.desktop
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Im??genes
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 M??sica
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Plantillas
+-rw-r--r--   1 kevin    kevin           0 Jan 13 12:13 proftpddescarga.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 P??blico
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp1.txt
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp2.txt
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp3.txt
+-rw-rw-r--   1 kevin    kevin          20 Jan 13 11:28 subido.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 V??deos
+226 Transferencia completada
+ftp> cd /
+250 Comando 'CWD' exitoso
+ftp> dir
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+drwxr-xr-x   2 root     root         4096 Dec 14 08:18 bin
+drwxr-xr-x   3 root     root         4096 Dec 15 08:34 boot
+drwxrwxr-x   2 root     root         4096 Sep 19 12:27 cdrom
+drwxr-xr-x  19 root     root         3940 Jan 13 11:18 dev
+drwxr-xr-x 137 root     root        12288 Jan 13 11:18 etc
+drwxr-xr-x   5 root     root         4096 Jan 12 10:19 home
+lrwxrwxrwx   1 root     root           33 Dec 15 08:33 initrd.img -> boot/initrd.img-4.4.0-104-generic
+lrwxrwxrwx   1 root     root           33 Dec 14 08:21 initrd.img.old -> boot/initrd.img-4.4.0-103-generic
+drwxr-xr-x  22 root     root         4096 Sep 19 12:29 lib
+drwxr-xr-x   2 root     root         4096 Dec 14 08:18 lib64
+drwx------   2 root     root        16384 Sep 19 12:25 lost+found
+drwxr-xr-x   3 root     root         4096 Sep 19 15:01 media
+drwxr-xr-x   2 root     root         4096 Apr 20  2016 mnt
+drwxr-xr-x   3 root     root         4096 Sep 19 15:02 opt
+dr-xr-xr-x 180 root     root            0 Jan 13 11:17 proc
+drwx------   6 root     root         4096 Jan 13 11:48 root
+drwxr-xr-x  30 root     root          980 Jan 13 11:49 run
+drwxr-xr-x   2 root     root        12288 Dec 14 08:20 sbin
+drwxr-xr-x   2 root     root         4096 Apr 19  2016 snap
+drwxr-xr-x   3 root     root         4096 Jan 12 10:14 srv
+dr-xr-xr-x  13 root     root            0 Jan 13 11:50 sys
+drwxrwxrwt  10 root     root         4096 Jan 13 12:09 tmp
+drwxr-xr-x  11 root     root         4096 Apr 20  2016 usr
+drwxr-xr-x  16 root     root         4096 Dec 19 13:57 var
+lrwxrwxrwx   1 root     root           30 Dec 15 08:33 vmlinuz -> boot/vmlinuz-4.4.0-104-generic
+lrwxrwxrwx   1 root     root           30 Dec 14 08:21 vmlinuz.old -> boot/vmlinuz-4.4.0-103-generic
+-rw-r--r--   1 root     root         2084 Dec 19 13:57 webmin-setup.out
+226 Transferencia completada
+ftp>
+```
+- Vamos a subir y descargar un fichero desde el equipo cliente al servidor con el usuario kevin.
+
+```console
+roberto@clienterob:~$ ftp ftp.miempresa.edu
+Connected to miempresa.edu.
+220 ProFTPD 1.3.5a Server (Debian) [::ffff:172.18.22.1]
+Name (ftp.miempresa.edu:roberto): kevin
+331 ContraseÃ±a necesaria para kevin
+Password:
+230 Usuario kevin conectado
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Descargas
+-rw-rw-r--   1 kevin    kevin          22 Jan 13 11:28 descarga.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Documentos
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Escritorio
+-rw-r--r--   1 kevin    kevin        8980 Jan 12 10:19 examples.desktop
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Im??genes
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 M??sica
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Plantillas
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 P??blico
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp1.txt
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp2.txt
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp3.txt
+-rw-rw-r--   1 kevin    kevin          20 Jan 13 11:28 subido.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 V??deos
+226 Transferencia completada
+ftp> put proftpddescarga.txt
+local: proftpddescarga.txt remote: proftpddescarga.txt
+200 Comando PORT exitoso
+150 Abriendo BINARY modo conexiÃ³n de datos para proftpddescarga.txt
+226 Transferencia completada
+ftp> put proftpsubida.txt
+local: proftpsubida.txt remote: proftpsubida.txt
+200 Comando PORT exitoso
+150 Abriendo BINARY modo conexiÃ³n de datos para proftpsubida.txt
+226 Transferencia completada
+ftp> ls
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Descargas
+-rw-rw-r--   1 kevin    kevin          22 Jan 13 11:28 descarga.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Documentos
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Escritorio
+-rw-r--r--   1 kevin    kevin        8980 Jan 12 10:19 examples.desktop
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Im??genes
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 M??sica
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Plantillas
+-rw-r--r--   1 kevin    kevin           0 Jan 13 12:20 proftpddescarga.txt
+-rw-r--r--   1 kevin    kevin           0 Jan 13 12:21 proftpsubida.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 P??blico
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp1.txt
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp2.txt
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp3.txt
+-rw-rw-r--   1 kevin    kevin          20 Jan 13 11:28 subido.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 V??deos
+226 Transferencia completada
+ftp> get proftpddescarga.txt
+local: proftpddescarga.txt remote: proftpddescarga.txt
+200 Comando PORT exitoso
+150 Abriendo BINARY modo conexiÃ³n de datos para proftpddescarga.txt
+226 Transferencia completada
+ftp>
+```
+- Comprobamos el acceso con el usuario Suso
+
+```console
+
+roberto@clienterob:~$ ftp ftp.miempresa.edu
+Connected to miempresa.edu.
+220 ProFTPD 1.3.5a Server (Debian) [::ffff:172.18.22.1]
+Name (ftp.miempresa.edu:roberto): suso
+331 ContraseÃ±a necesaria para suso
+Password:
+230 Usuario suso conectado
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> cd /
+250 Comando 'CWD' exitoso
+ftp> ls
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+drwxr-xr-x   2 root     root         4096 Dec 14 08:18 bin
+drwxr-xr-x   3 root     root         4096 Dec 15 08:34 boot
+drwxrwxr-x   2 root     root         4096 Sep 19 12:27 cdrom
+drwxr-xr-x  19 root     root         3940 Jan 13 11:18 dev
+drwxr-xr-x 137 root     root        12288 Jan 13 11:18 etc
+drwxr-xr-x   5 root     root         4096 Jan 12 10:19 home
+lrwxrwxrwx   1 root     root           33 Dec 15 08:33 initrd.img -> boot/initrd.img-4.4.0-104-generic
+lrwxrwxrwx   1 root     root           33 Dec 14 08:21 initrd.img.old -> boot/initrd.img-4.4.0-103-generic
+drwxr-xr-x  22 root     root         4096 Sep 19 12:29 lib
+drwxr-xr-x   2 root     root         4096 Dec 14 08:18 lib64
+drwx------   2 root     root        16384 Sep 19 12:25 lost+found
+drwxr-xr-x   3 root     root         4096 Sep 19 15:01 media
+drwxr-xr-x   2 root     root         4096 Apr 20  2016 mnt
+drwxr-xr-x   3 root     root         4096 Sep 19 15:02 opt
+dr-xr-xr-x 183 root     root            0 Jan 13 11:17 proc
+drwx------   6 root     root         4096 Jan 13 11:48 root
+drwxr-xr-x  30 root     root          980 Jan 13 11:49 run
+drwxr-xr-x   2 root     root        12288 Dec 14 08:20 sbin
+drwxr-xr-x   2 root     root         4096 Apr 19  2016 snap
+drwxr-xr-x   3 root     root         4096 Jan 12 10:14 srv
+dr-xr-xr-x  13 root     root            0 Jan 13 11:50 sys
+drwxrwxrwt  10 root     root         4096 Jan 13 12:17 tmp
+drwxr-xr-x  11 root     root         4096 Apr 20  2016 usr
+drwxr-xr-x  16 root     root         4096 Dec 19 13:57 var
+lrwxrwxrwx   1 root     root           30 Dec 15 08:33 vmlinuz -> boot/vmlinuz-4.4.0-104-generic
+lrwxrwxrwx   1 root     root           30 Dec 14 08:21 vmlinuz.old -> boot/vmlinuz-4.4.0-103-generic
+-rw-r--r--   1 root     root         2084 Dec 19 13:57 webmin-setup.out
+226 Transferencia completada
+ftp>
+```
+- Comprobamos que este usuario tambiíen puede acceder a la raíz. No es un usuario administrador, vamos a crear una regla para que no pueda acceder este cliente a la raíz del `sistema operativo ubuntu`. Solo tenemos que ir al fichero `proftpd.conf` y modificar la siguientes líneas donde se encuentra `DefaultRoot`
+
+``` console
+kevin@serverob:/etc/proftpd$ more proftpd.conf | grep -e suso -e kevin
+DefaultRoot			/home/suso 	suso
+DefaultRoot			/		kevin
+kevin@serverob:/etc/proftpd$
+```
+
+- Si nos fijamos tenemos establecido una regla para que el `usuario kevin pueda acceder a todo` y `el usaurio suso solo puede acceder a su home de usuario`.
+
+- Comprobación del usuario `suso`
+
+```console
+roberto@clienterob:~$ ftp ftp.miempresa.edu
+Connected to miempresa.edu.
+220 ProFTPD 1.3.5a Server (Debian) [::ffff:172.18.22.1]
+Name (ftp.miempresa.edu:roberto): suso
+331 ContraseÃ±a necesaria para suso
+Password:
+230 Usuario suso conectado
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+-rw-rw-r--   1 suso     suso           22 Jan 13 11:33 descarga.txt
+-rw-r--r--   1 suso     suso         8980 Jan 12 10:19 examples.desktop
+-rw-rw-r--   1 suso     suso           20 Jan 13 11:32 subido.txt
+226 Transferencia completada
+ftp> cd /
+250 Comando 'CWD' exitoso
+ftp> ls
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+-rw-rw-r--   1 suso     suso           22 Jan 13 11:33 descarga.txt
+-rw-r--r--   1 suso     suso         8980 Jan 12 10:19 examples.desktop
+-rw-rw-r--   1 suso     suso           20 Jan 13 11:32 subido.txt
+226 Transferencia completada
+ftp>
+```
+
+- Comprobación usuario `kevin`
+
+```console
+roberto@clienterob:~$ ftp ftp.miempresa.edu
+Connected to miempresa.edu.
+220 ProFTPD 1.3.5a Server (Debian) [::ffff:172.18.22.1]
+Name (ftp.miempresa.edu:roberto): kevin
+331 ContraseÃ±a necesaria para kevin
+Password:
+230 Usuario kevin conectado
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Descargas
+-rw-rw-r--   1 kevin    kevin          22 Jan 13 11:28 descarga.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Documentos
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Escritorio
+-rw-r--r--   1 kevin    kevin        8980 Jan 12 10:19 examples.desktop
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Im??genes
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 M??sica
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 Plantillas
+-rw-r--r--   1 kevin    kevin           0 Jan 13 12:20 proftpddescarga.txt
+-rw-r--r--   1 kevin    kevin           0 Jan 13 12:21 proftpsubida.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 P??blico
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp1.txt
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp2.txt
+-rw-rw-r--   1 kevin    kevin           0 Jan 13 11:44 scp3.txt
+-rw-rw-r--   1 kevin    kevin          20 Jan 13 11:28 subido.txt
+drwxr-xr-x   2 kevin    kevin        4096 Jan 13 11:39 V??deos
+226 Transferencia completada
+ftp> cd /
+250 Comando 'CWD' exitoso
+ftp> ls
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+drwxr-xr-x   2 root     root         4096 Dec 14 08:18 bin
+drwxr-xr-x   3 root     root         4096 Dec 15 08:34 boot
+drwxrwxr-x   2 root     root         4096 Sep 19 12:27 cdrom
+drwxr-xr-x  19 root     root         3940 Jan 13 11:18 dev
+drwxr-xr-x 137 root     root        12288 Jan 13 11:18 etc
+drwxr-xr-x   5 root     root         4096 Jan 12 10:19 home
+lrwxrwxrwx   1 root     root           33 Dec 15 08:33 initrd.img -> boot/initrd.img-4.4.0-104-generic
+lrwxrwxrwx   1 root     root           33 Dec 14 08:21 initrd.img.old -> boot/initrd.img-4.4.0-103-generic
+drwxr-xr-x  22 root     root         4096 Sep 19 12:29 lib
+drwxr-xr-x   2 root     root         4096 Dec 14 08:18 lib64
+drwx------   2 root     root        16384 Sep 19 12:25 lost+found
+drwxr-xr-x   3 root     root         4096 Sep 19 15:01 media
+drwxr-xr-x   2 root     root         4096 Apr 20  2016 mnt
+drwxr-xr-x   3 root     root         4096 Sep 19 15:02 opt
+dr-xr-xr-x 186 root     root            0 Jan 13 11:17 proc
+drwx------   6 root     root         4096 Jan 13 11:48 root
+drwxr-xr-x  30 root     root          980 Jan 13 12:31 run
+drwxr-xr-x   2 root     root        12288 Dec 14 08:20 sbin
+drwxr-xr-x   2 root     root         4096 Apr 19  2016 snap
+drwxr-xr-x   3 root     root         4096 Jan 12 10:14 srv
+dr-xr-xr-x  13 root     root            0 Jan 13 11:50 sys
+drwxrwxrwt  10 root     root         4096 Jan 13 12:17 tmp
+drwxr-xr-x  11 root     root         4096 Apr 20  2016 usr
+drwxr-xr-x  16 root     root         4096 Dec 19 13:57 var
+lrwxrwxrwx   1 root     root           30 Dec 15 08:33 vmlinuz -> boot/vmlinuz-4.4.0-104-generic
+lrwxrwxrwx   1 root     root           30 Dec 14 08:21 vmlinuz.old -> boot/vmlinuz-4.4.0-103-generic
+-rw-r--r--   1 root     root         2084 Dec 19 13:57 webmin-setup.out
+226 Transferencia completada
+ftp>
+```
+
+- Vamos a subir y descargar un fichero desde el equipo cliente al servidor con el usuario suso.
+
+```console
+
+roberto@clienterob:~$ ftp ftp.miempresa.edu
+Connected to miempresa.edu.
+220 ProFTPD 1.3.5a Server (Debian) [::ffff:172.18.22.1]
+Name (ftp.miempresa.edu:roberto): suso
+331 ContraseÃ±a necesaria para suso
+Password:
+230 Usuario suso conectado
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> put proftpddescarga.txt
+local: proftpddescarga.txt remote: proftpddescarga.txt
+200 Comando PORT exitoso
+150 Abriendo BINARY modo conexiÃ³n de datos para proftpddescarga.txt
+226 Transferencia completada
+ftp> put proftpsubida.txt
+local: proftpsubida.txt remote: proftpsubida.txt
+200 Comando PORT exitoso
+150 Abriendo BINARY modo conexiÃ³n de datos para proftpsubida.txt
+226 Transferencia completada
+ftp> ls
+200 Comando PORT exitoso
+150 Abriendo ASCII modo conexiÃ³n de datos para file list
+-rw-rw-r--   1 suso     suso           22 Jan 13 11:33 descarga.txt
+-rw-r--r--   1 suso     suso         8980 Jan 12 10:19 examples.desktop
+-rw-r--r--   1 suso     suso            0 Jan 13 12:38 proftpddescarga.txt
+-rw-r--r--   1 suso     suso            0 Jan 13 12:38 proftpsubida.txt
+-rw-rw-r--   1 suso     suso           20 Jan 13 11:32 subido.txt
+226 Transferencia completada
+ftp> get proftpddescarga.txt
+local: proftpddescarga.txt remote: proftpddescarga.txt
+200 Comando PORT exitoso
+150 Abriendo BINARY modo conexiÃ³n de datos para proftpddescarga.txt
+226 Transferencia completada
+ftp>
+```
+
 ## 2. Crear dos usuarios llamado kevin y suso
 
 Solo tenemos que crear dos usuarios con el comando `useradd "nombre-Usuario"`.
@@ -145,6 +755,7 @@ Introduzca el nuevo valor, o presione INTRO para el predeterminado
 roberto@serverob:~$
 
 ```
+
 ### 2.1 Establecemos los siguiente privilegios para los usuarios.
 
 Un usuario tiene que tener privilegio de `Administrador` y el otro usuario como `Estándar`.
@@ -284,3 +895,176 @@ kevin@serverob:~$
 Comprobamos con una aplicación, en mi caso `gedit`.
 
 ![](img/004.png)
+
+### 3.3 Acceder desde el cliente, mediante sftp.
+
+Lo primero que tenemos que realizar en el equipo cliente es crear dos ficheros. En mi caso los llamaré `subida.txt y descarga.txt`.
+
+```console
+roberto@clienterob:~$ echo "hola fichero subido" > subido.txt
+roberto@clienterob:~$ echo "hola fichero descarga" > descarga.txt
+roberto@clienterob:~$ ls
+Descargas     Documentos  examples.desktop  Música      Público     Vídeos
+descarga.txt  Escritorio  Imágenes          Plantillas  subido.txt
+roberto@clienterob:~$
+```
+
+#### 3.3.1 Conectar al SFTP
+
+Solo tenemos que escribir la terminal y escribir el siguiente comando.
+
+- `sftp usuario@ip-server`
+
+```console
+roberto@clienterob:~$ sftp kevin@172.18.22.1
+kevin@172.18.22.1's password:
+Connected to 172.18.22.1.
+sftp> dir
+examples.desktop    
+sftp> ls
+examples.desktop    
+sftp> help
+Available commands:
+bye                                Quit sftp
+cd path                            Change remote directory to 'path'
+chgrp grp path                     Change group of file 'path' to 'grp'
+chmod mode path                    Change permissions of file 'path' to 'mode'
+chown own path                     Change owner of file 'path' to 'own'
+df [-hi] [path]                    Display statistics for current directory or
+                                   filesystem containing 'path'
+exit                               Quit sftp
+get [-afPpRr] remote [local]       Download file
+reget [-fPpRr] remote [local]      Resume download file
+reput [-fPpRr] [local] remote      Resume upload file
+help                               Display this help text
+lcd path                           Change local directory to 'path'
+lls [ls-options [path]]            Display local directory listing
+lmkdir path                        Create local directory
+ln [-s] oldpath newpath            Link remote file (-s for symlink)
+lpwd                               Print local working directory
+ls [-1afhlnrSt] [path]             Display remote directory listing
+lumask umask                       Set local umask to 'umask'
+mkdir path                         Create remote directory
+progress                           Toggle display of progress meter
+put [-afPpRr] local [remote]       Upload file
+pwd                                Display remote working directory
+quit                               Quit sftp
+rename oldpath newpath             Rename remote file
+rm path                            Delete remote file
+rmdir path                         Remove remote directory
+symlink oldpath newpath            Symlink remote file
+version                            Show SFTP version
+!command                           Execute 'command' in local shell
+!                                  Escape to local shell
+?                                  Synonym for help
+sftp> lpwd
+Local working directory: /home/roberto
+sftp> lls
+Descargas     Documentos  examples.desktop  Música	Público     Vídeos
+descarga.txt  Escritorio  Imágenes	    Plantillas	subido.txt
+sftp>
+```
+
+#### 3.3.2 Subir y descargar fichero desde equipo cliente al usuario kevin del servidor.
+
+Solo tenemos que abrir una terminal.
+
+- Con el usuario Kevin
+
+```console
+roberto@clienterob:~$ sftp kevin@172.18.22.1
+kevin@172.18.22.1's password:
+Permission denied, please try again.
+kevin@172.18.22.1's password:
+Connected to 172.18.22.1.
+sftp> put subido.txt
+Uploading subido.txt to /home/kevin/subido.txt
+subido.txt                                    100%   20     0.0KB/s   00:00    
+sftp> put descarga.txt
+Uploading descarga.txt to /home/kevin/descarga.txt
+descarga.txt                                  100%   22     0.0KB/s   00:00    
+sftp> ls
+descarga.txt        examples.desktop    subido.txt          
+sftp> get subido.txt
+Fetching /home/kevin/subido.txt to subido.txt
+/home/kevin/subido.txt                        100%   20     0.0KB/s   00:00    
+sftp> lls
+Descargas   Escritorio	      Imágenes	Plantillas  Vídeos
+Documentos  examples.desktop  Música	Público
+sftp> get subido.txt
+Fetching /home/kevin/subido.txt to subido.txt
+/home/kevin/subido.txt                        100%   20     0.0KB/s   00:00    
+sftp> get descarga.txt
+Fetching /home/kevin/descarga.txt to descarga.txt
+/home/kevin/descarga.txt                      100%   22     0.0KB/s   00:00    
+sftp> lls
+Descargas     Documentos  examples.desktop  Música	Público     Vídeos
+descarga.txt  Escritorio  Imágenes	    Plantillas	subido.txt
+sftp>
+```
+- Con el usuario Suso
+
+```console
+roberto@clienterob:~$ sftp suso@172.18.22.1
+suso@172.18.22.1's password:
+Connected to 172.18.22.1.
+sftp> ls
+examples.desktop    subido.txt          
+sftp> put subido.txt
+Uploading subido.txt to /home/suso/subido.txt
+subido.txt                                    100%   20     0.0KB/s   00:00    
+sftp> c
+cd     chdir  chgrp  chmod  chown  
+sftp> put descarga.txt
+Uploading descarga.txt to /home/suso/descarga.txt
+descarga.txt                                  100%   22     0.0KB/s   00:00    
+sftp> lls
+Descargas     Documentos  examples.desktop  Música	Público     Vídeos
+descarga.txt  Escritorio  Imágenes	    Plantillas	subido.txt
+sftp> ls
+descarga.txt        examples.desktop    subido.txt          
+sftp> lls
+Descargas   Escritorio	      Imágenes	Plantillas  subido.txt
+Documentos  examples.desktop  Música	Público     Vídeos
+sftp> get descarga.txt
+Fetching /home/suso/descarga.txt to descarga.txt
+/home/suso/descarga.txt                       100%   22     0.0KB/s   00:00    
+sftp> lls
+Descargas     Documentos  examples.desktop  Música	Público     Vídeos
+descarga.txt  Escritorio  Imágenes	    Plantillas	subido.txt
+sftp>
+```
+
+### 3.4 Utilizando el comando SPC
+
+Primero creamos unos ficheros llamados `scp1.txt, scp2.txt, scp3.txt`
+
+- Para subir el fichero mediante scp tiene la siguiente manera:
+
+- `scp /ruta/al/archivo-origen usuario@ordenador:/ruta/al/directorio-destino/`
+
+- Comprobamos pasar un fichero mediante scp al usuario `kevin y suso`
+
+
+```console
+kevin@serverob:~$ sudo scp scp?.txt kevin@172.18.22.1:/tmp
+kevin@172.18.22.1's password:
+scp1.txt                                      100%    0     0.0KB/s   00:00    
+scp2.txt                                      100%    0     0.0KB/s   00:00    
+scp3.txt                                      100%    0     0.0KB/s   00:00    
+kevin@serverob:~$ sudo scp scp?.txt suso@172.18.22.1:/tmp
+suso@172.18.22.1's password:
+scp: /tmp/scp1.txt: Permission denied
+scp: /tmp/scp2.txt: Permission denied
+scp: /tmp/scp3.txt: Permission denied
+kevin@serverob:~$ ls -l /tmp/
+total 8
+-rw------- 1 kevin kevin    0 ene 13 11:39 config-err-76NOz2
+-rw-rw-r-- 1 kevin kevin    0 ene 13 11:49 scp1.txt
+-rw-rw-r-- 1 kevin kevin    0 ene 13 11:49 scp2.txt
+-rw-rw-r-- 1 kevin kevin    0 ene 13 11:49 scp3.txt
+drwx------ 3 root  root  4096 ene 13 11:18 systemd-private-feb28b88fc3246358c0616864e7abd13-colord.service-jSgaPc
+drwx------ 3 root  root  4096 ene 13 11:18 systemd-private-feb28b88fc3246358c0616864e7abd13-rtkit-daemon.service-gYy6tx
+-rw-rw-r-- 1 kevin kevin    0 ene 13 11:39 unity_support_test.1
+kevin@serverob:~$
+```
