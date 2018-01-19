@@ -102,15 +102,91 @@ Comprobamos que se crearón correctamente las carpetas de correo.
 
 ### 2.1 Comprobar acceso al nuevo nombre DNS creado en el servidor.
 
+Vamos a utilizar el dominio de `skynet.edu`
+
 
 ### 2.2 Configurar el cliente de correo Live mail agregando dos cuentas de correo cualesquiera (usuarios AD -dominio- y no AD). Se deberá especificar: usuario / buzón, contraseña,  servidor SMTP.
 
+Vamos a la página de opera y descargamos el `opera live`
 
-### 2.3 Enviar varios correos desde / hacia las diferentes cuentas y comprobar envío (real o ficticio) y carpetas mailroot. Las carpetas existentes en mailroot alojan mensajes en cola (Queue), mensajes para destinatarios desconocidos (Badmail) y mensajes entregados (Drop)
+![](img/025.png)
+
+Instalamos el programa y configuramos el gestor de correo electrónico.
+
+![](img/026.png)
+
+Configuramos el correo, en este caso como es anónimo podemos inventarnos el email.
+
+![](img/027.png)
+
+Configuramos el usuario. Inventado y contraseña.
+
+![](img/028.png)
+
+Configuramos el SMTP con el nombre del dominio `skynet.edu`
+
+![](img/029.png)
+
+Comprobamos que enviamos el correo electrónico en una cuentra ficticia.
+
+![](img/030.png)
+
+Comprobamos en los ficheros del servidor.
+
+![](img/033.png)
+
+Abrimos el siguiente fichero y comprobamos que intenta enviar el correo.
+
+![](img/031.png)
+
+Comprobamos que funciona con una cuenta real mía.
+
+![](img/032.png)
+
+En el corrreo electrónico mio y compruebo que está correctamente recibido en el spam.
+
+![](img/034.png)
+
+- Comprobamos en el cliente Opera los correos enviados.
+
+![](img/035.png)
+
 
 ## 3. Nueva configuración de servicio SMTP a través del administrador de aplicaciones (IIS) 6.0. Establecer autenticación básica de Windows. Probar diferentes configuraciones de dominio predeterminado, cifrado TLS, etc.
+
+Primero tenemos que ir al IIS 6.0 y establecer en comunicación segura `TLS` y luego vamos a autenticación.
+
+![](img/040.png)
+
+Seleccionamos autenticación básica y marcamos el TLS
+
+![](img/041.png)
 
 
 ## 4. En el cliente Windows:
 
 ### 4.1 Configurar las cuentas según los parámetros especificados en el servidor. Enviar varios correos desde / hacia las diferentes cuentas y comprobar envío y carpetas mailroot. En este caso sólo tendrán acceso al servidor SMTP cuentas del dominio y correspondientes a usuarios de AD.
+
+Configuramos una cuenta de correo del directorio activo `kevin, oscar`
+
+![](img/038.png)
+
+![](img/039.png)
+
+Escribimos un correo electrónico.
+
+![](img/044.png)
+
+Muestra un mensaje para aprobar el `TLS`
+
+![](img/042.png)
+
+Nos fijamos en la carpeta de `mailroot`
+
+![](img/043.png)
+
+![](img/045.png)
+
+Enviamos el correo al correo electrónico mío.
+
+![](img/046.png)
