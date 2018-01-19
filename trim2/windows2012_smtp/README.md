@@ -1,6 +1,6 @@
 # Windows 2012 Server SMTP
 
-![](img/000.png)
+![](img/000.jpg)
 
 ## 1. Agregar Roles de SMTP
 
