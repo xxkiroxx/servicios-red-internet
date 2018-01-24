@@ -15,15 +15,42 @@ Vamos a la página Web de [HMailServer](https://www.hmailserver.com/download) y 
 
 ## 2. Instalación de HMailServer.
 
+Comenzamos con la instalación de `hmailserver`.
+
 ![](img/002.png)
+
+- siguiente
+
 ![](img/003.png)
+
+- Aceptamos los términos.
+
 ![](img/004.png)
+
+- La ruta donde queremos instalar el `hMailServer`.
+
 ![](img/005.png)
+
+- Seleccionamos las características.
+
 ![](img/006.png)
+
+- Creación de la Base de datos.
+
 ![](img/007.png)
+
 ![](img/008.png)
+
+- Escribimos la contraseña para el administrador.
+
 ![](img/009.png)
+
+- Le damos a instalar.
+
 ![](img/010.png)
+
+- Te pedirá que necesita el `NET Framework 2.0`
+
 ![](img/011.png)
 
 - Al comenzar con la instalación nos dice que no puede instalar el `Net Framework 3.5`.
@@ -85,27 +112,73 @@ Vamos a `Utilities -> Diagnostics` seleccionamos un dominio.
 
 ## 5. Crea dos cuentas para dos usuarios ficticios en cada uno de los dos dominios. Investiga y configura las cuentas con diferentes opciones (cuota de disco, auto-reply, forwarding, signature, etc.)
 
+Vamos a las pestañas de dominio de `asir.edu` y `srd.edu`
+
+- Vamos a Accounts y le damos a añadir un usuario nuevo.
 
 ![](img/024.png)
+
+- El usuario que vamos a crear se llamará `suso`
+
 ![](img/025.png)
+
+- Configuramos `Auto-Reply` para contestar automáticamente un correo.
+
 ![](img/026.png)
+
+- Creamos un usuario `kevin`
+
 ![](img/027.png)
+
+- Configuramos `Auto-Reply` para contestar automáticamente un correo.
+
 ![](img/028.png)
+
+- Configuramos el `Forwarding` para que le llegue al correo de `Abraham`
+
 ![](img/029.png)
+
+- Configuramos el `Signature`
+
 ![](img/030.png)
+
+- Comprobamos que tenemos creado los usuarios `suso y kevin`
+
 ![](img/031.png)
+
+- Vamos al dominio de `srd.edu` y creamos el usuario `abraham`
+
 ![](img/032.png)
+
+- Configuramos el `Auto-reply`
+
 ![](img/033.png)
+
+- Creamos un usuario llamado `noelia`
+
 ![](img/034.png)
+
+- Configuramos el `Auto-reply`
+
 ![](img/035.png)
+
+- Usuarios creados en el dominio `srd.edu` los usuarios `abraham y noelia`
+
 ![](img/036.png)
 
 ## 6. Configura el servicio DNS para crear las entradas mail.srd.edu y mail.asir.edu que apunten a la dirección ip del servidor windows 2012.
 
 Vamos al `DNS` y vamos a crear dos zonas maestras nuevas.
 
+- `asir.edu`
+- `srd.edu`
+
 ![](img/037.png)
 
+- Creamos un registro de `MX` en el dominio de `asir.edu`
+
 ![](img/038.png)
+
+- Creamos un registro de `MX` en el dominio de `srd.edu`
 
 ![](img/039.png)
