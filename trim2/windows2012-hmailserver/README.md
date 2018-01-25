@@ -318,12 +318,34 @@ Envio un correo electrónico desde la cuenta `noelia` a la cuenta de `kevin`.
 ## 10. Crea una lista de distribución empleados asociada al dominio y añade a los dos usuarios de miempresa.com a ella.
 
 
+Primero tenemos que ir a `hMailServer` y vamos al dominio de `asir.edu` y vamos a la carpeta de `Distibution lists` vamos a crear un grupo llamado `asir` para los dos correos electrónico `suso y kevin`.
 
 ![](img/064.png)
+
+- Comprobamos que tenemos añadido los usuarios `kevin y suso` al grupo `asir`
+
 ![](img/065.png)
+
+- Realizamos el mismo procedimiento con el dominio `srd.edu` y creamos un grupo llamado `srd` con los usuarios `noelia y abraham`.
+
 ![](img/066.png)
+
+- Desde una cuenta de usuario `suso` enviamos un correo al grupo `srd@srd.edu`
+
 ![](img/067.png)
+
+- Comprobamos que llego correctamente el correo en la bandeja de `abraham`
+
 ![](img/068.png)
+
+- Comprobamos que llego correctamente el correo en la bandeja de `suso`
+
 ![](img/069.png)
+
+- Enviamos un correo al grupo `asir@asir.edu`
+
 ![](img/070.png)
+
+- Comprobamos que llegan bien los correos electrónicos.
+
 ![](img/071.png)
