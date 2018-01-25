@@ -166,7 +166,7 @@ Vamos a las pestañas de dominio de `asir.edu` y `srd.edu`
 
 ![](img/036.png)
 
-## 6. Configura el servicio DNS para crear las entradas mail.srd.edu y mail.asir.edu que apunten a la dirección ip del servidor windows 2012.
+## 6. Configura el servicio DNS para crear las entradas srd.edu y asir.edu que apunten a la dirección ip del servidor windows 2012.
 
 Vamos al `DNS` y vamos a crear dos zonas maestras nuevas.
 
@@ -182,3 +182,148 @@ Vamos al `DNS` y vamos a crear dos zonas maestras nuevas.
 - Creamos un registro de `MX` en el dominio de `srd.edu`
 
 ![](img/039.png)
+
+Vamos a `HMailServer` y vamos a realizar un diagnostico para comprobar que funciona correctamente los `MX`.
+
+
+- Realizamos el test con el dominio `srd.edu`
+
+![](img/040.png)
+
+- Realizamos el test con el dominio `asir.edu`
+
+
+## 7. Realiza todas las opciones de configuración que consideres necesarias y/o convenientes. Consulta para ello los tutoriales cuyos enlaces se proporcionan (opciones de protocolos SMTP, POP e IMAP, rangos de IP, bloqueo de correo entrante, nombre de host, reenvío dominios remotos, blacklists, opciones de logging, etc.)
+
+
+Primero configuramos los servicios de `POP3`, `SMTP` y `IMAP`.
+
+![](img/041.png)
+
+
+- `SMTP`: Configuramos las conexiones permitidas, `0` es ilimitado las conexiones.
+
+![](img/042.png)
+
+- `Local host`
+
+![](img/049.png)
+
+- `POP3`
+
+![](img/043.png)
+
+- `IMAP`
+
+![](img/044.png)
+
+Configuramos el `Anti-Spam` en el `hMailServer`.
+
+![](img/045.png)
+
+Configuramos los `rangos de IP`.
+
+![](img/046.png)
+
+
+Configuramos el `Auto-Ban`
+
+![](img/047.png)
+
+
+Configuramos las opciones de `logging`.
+
+![](img/048.png)
+
+
+## 8.Configura en el cliente W7 un cliente de correo como thunderbird o Live Mail (en los ordenadores clientes) para acceder al servidor de correo instalado en Windows 2012.
+
+Vamos a configurar un correo electrónico con el usuario `suso`.
+
+![](img/049.png)
+
+- Vamos al Equipo cliente Win7 y abrimos el `Opera Mail` configuramos un correo nuevo para el usuario `suso`
+
+![](img/050.png)
+
+- Escribimos las configuraciones necesarias para el usuario `suso`
+
+![](img/051.png)
+
+- El usuario debe ser `suso@asir.edu`
+
+![](img/052.png)
+
+- Escribimos el nombre del servidor donde nosotros tenemos un registro tipo `MX` en mi caso en `asir.edu`
+
+
+![](img/053.png)
+
+- Ya tenemos configurado un usuario con su correo.
+
+- Con el `Usuario Kevin` enviamos un correo electrónico al usuario `suso`
+
+
+![](img/054.png)
+
+
+- Comprobamos que llega el correo electrónico a la bandeja de entrada de `suso`
+
+
+
+![](img/055.png)
+
+
+## 9.Realiza prueba de envío y recepción de correos entre los diferentes usuarios, comprobando, además de envío y recepción correctas, el efecto de las opciones configuradas en las cuentas.
+
+
+Ya tenemos configurado los usuarios `kevin@asir.edu`, `suso@asir.edu`, `noelia@srd.edu` y `abraham@srd.edu` en gestor de cuentas de correo electrónico llamado `Opera Mail`
+
+
+- Comprobamos con el usuario de `kevin`, todo el correo que le llega debe redirigir toda su bandeja al correo de `abraham`.
+
+![](img/056.png)
+
+- Comprobamos que no tenemos ninguna correo electrónico en ninguna cuenta.
+
+![](img/058.png)
+
+
+Envio un correo electrónico desde la cuenta `noelia` a la cuenta de `kevin`.
+
+![](img/057.png)
+
+- Comprobamos que reenvia todo el correo electrónico a la cuenta de `abraham`
+
+![](img/059.png)
+
+
+- Con el usuario `noelia` configuramos el auto-reply.
+
+![](img/060.png)
+
+- Enviamos un correo electrónico con el usuario `kevin` a `noelia`
+
+![](img/061.png)
+
+- Comprobamos que llega bien el correo electrónico al usuario `noelia`
+
+![](img/062.png)
+
+- Como tenemos que el usuario `kevin` todo su correo debe ir redirigido a `abraham` vamos a la cuenta de abraham y llega un `Auto-Replay` de `noelia`.
+
+![](img/063.png)
+
+
+## 10. Crea una lista de distribución empleados asociada al dominio y añade a los dos usuarios de miempresa.com a ella.
+
+
+
+![](img/064.png)
+![](img/065.png)
+![](img/066.png)
+![](img/067.png)
+![](img/068.png)
+![](img/069.png)
+![](img/070.png)
+![](img/071.png)
