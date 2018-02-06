@@ -104,22 +104,16 @@ Realizamos una comprobación para ver si funciona la resolución de nombre.
 
 ![](img/018.png)
 
-## 4. Instalación de cliente de correo en Ubuntu
+## 4. Instalación de cliente de correo en Windows
 
-Solo tenemos que abrir una terminal y escribir el siguiente comando para instalar la aplicación `evolution`
-
-- `sudo apt install evolution`
-
-![](img/020.png)
-
-- Comienza la configuración de `Evolution` solo tenemos que darle siguiente.
-
-![](img/021.png)
+Solo tenemos que instalar un gestor de correo en `Windows` en este caso será el `OperaMail`.
 
 
 En el Equipo cliente debemos tener configurado en la tarjeta de red las `DNS` de nuestro servidor `ubuntu`.
 
 ![](img/023.png)
+
+Abrimos el `OperaMail` y creamos una cuenta de un usuario nuevo de correo.
 
 - Escribimos el mail del usuario `eric`
 
@@ -175,9 +169,120 @@ Tenemos que abrir una terminal y escribimos el siguiente comando para instalar e
 
 ## 6. Instalación de Squirrelmail
 
+Comenzamos con la instalación de `Squirrelmail`.
+
+- Escribimos el siguiente comando para instalar el `Sequirrelmail`
+
+- `sudo apt install squirrelmail`
+
 ![](img/036.png)
+
+- Ruta de ficheros de configuración de `squirrelmail` en `/etc/squirrelmail`
+
 ![](img/037.png)
+
+- Ruta del directorio de la aplicación `squirrelmail` en `/usr/share/squirrelmail`
+
 ![](img/038.png)
-![](img/039.png)
+
+## 7. Creación de un Virtual Host en Apache2
+
+Tenemos que ir a la ruta de `sites-available` creamo un fichero nuevo de virtual host con el nombre de `squirrelmail.conf`.
+
 ![](img/039-1.png)
+
+Con el siguiente comando `a2ensite squirrelmail.conf` creamos un enlace simbólico en `sites-enabled`.
+
+Realizamos también un reinicio del servicio de `apache2` y comprobamos su estado.
+
 ![](img/040.png)
+
+## 8. Conectar a Squirrelmail desde el Servidor Ubuntu.
+
+Solo tenemos que abrir un navegador y escribir `localhost/squirrelmail` y se nos muestra una página de autenticación.
+
+![](img/041.png)
+
+## 9. Conectar a Squirrelmail desde Cliente Windows.
+
+Solo tenemos que abrir un navegador y escribir `miempresa.com/squirrelmail` y escribimos el nombre del usuario `eric` para acceder al correo.
+
+![](img/042.png)
+
+- Comprobamos la bandeja de entrada de `eric` y vemos que recibio un correo de `stan`
+
+![](img/043.png)
+
+Vamos a enviar un correo a `stan` por lo tanto tenemos que ir a `compose`.
+
+![](img/044.png)
+
+- Escribimos el mail de `stan` y escribimos un texto de prueba y le damos a `send`
+
+![](img/045.png)
+
+- Vemos en la bandeja de salida que se envió un correo de `eric` a `stan`
+
+![](img/046.png)
+
+Entramos en la cuenta de `stan`
+
+![](img/047.png)
+
+Comprobamos en la bandeja de entrada de `stan` que tenemos varios mensajes de `eric`.
+
+![](img/048.png)
+
+Vamos a conectar al correo de `eric` desde la cuenta de `stan`, solo tenemos que darle reply.
+
+![](img/049.png)
+
+Escribimos el correo de `eric` y el texto que le vamos a enviar.
+
+![](img/050.png)
+
+Vamos a la cuenta de `eric` para comprobar si nos llego el correo de `stan`.
+
+![](img/051.png)
+
+- Comprobamos que en la bandeja de entrada de `eric` tenemos un correo de `stan`
+
+![](img/052.png)
+
+- Abrimos dicho correo y vemos el resultado.
+
+![](img/053.png)
+
+## 10. Comprobamos que en el servidor están los contenedores de los correos de stan y eric
+
+Tenemos que ir a la siguiente ruta en el servidor `/var/mail`
+
+Vemos que tenemos dos contenedores de los correos de `eric` y `stan`.
+
+![](img/054.png)
+
+- Comprobamos si el correo de `eric` tiene correo de `stan`.
+
+![](img/055.png)
+
+- Comprobamos si el correo de `stan` tiene correo de `stan`.
+
+![](img/056.png)
+
+## 11. Instalación de POP3
+
+Solo tenemos que abrir una terminal y escribir el siguiente comando.
+
+- `sudo apt install dovecot-pop3d`
+
+![](img/057.png)
+
+Comprobamos los puertos de `POP3`
+
+![](img/058.png)
+
+![](img/059.png)
+
+Comprobamos que el servicio de `dovecot` con el `POP` y `IMAP` está activado y funcionando.
+
+![](img/059-1.png)
