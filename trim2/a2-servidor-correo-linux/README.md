@@ -179,4 +179,5 @@ Tenemos que abrir una terminal y escribimos el siguiente comando para instalar e
 ![](img/037.png)
 ![](img/038.png)
 ![](img/039.png)
+![](img/039-1.png)
 ![](img/040.png)
