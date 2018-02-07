@@ -20,7 +20,7 @@ En este caso vamos a marcar el correo `SMTP`.
 
 ![](img/002.png)
 
-- Escribimos el nombre del ssitema de correo, por ejemplo escribimos `miempresa.com`
+- Escribimos el nombre del sistema de correo, por ejemplo escribimos `miempresa.com`
 
 ![](img/003.png)
 
