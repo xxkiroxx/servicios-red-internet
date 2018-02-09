@@ -286,3 +286,76 @@ Comprobamos los puertos de `POP3`
 Comprobamos que el servicio de `dovecot` con el `POP` y `IMAP` está activado y funcionando.
 
 ![](img/059-1.png)
+
+### 11.1 Configurar en Dovecot del servidor para que funcione el POP
+
+Tenemos que ir a la siguiente ruta `/etc/dovecot/conf.d` para escribir dentro del fichero de configuración `10-auth.conf`.
+
+![](img/066.png)
+
+- Modificamos la linea de `ssl` y establecemos `no`
+  - `ssl = no`
+
+- Modificamos la línea de `disable_plaintext_auth` y establecemos `no`
+  - `disable_plaintext_auth = no`
+
+![](img/067.png)
+
+- Ya tenemos configurado y solo tenemos que reiniciar el servicio de `dovecot.service`
+
+![](img/068.png)
+
+## 12. Configurar cuenta de correo en Windows con OperaMail.
+
+Abrimos el programa de correo `OperaMail` y seguimos el asistente para crear una cuenta de correo para `eric`
+
+![](img/060.png)
+
+- Escribimos el correo y su contraseña. Importante marcar el `correo normal POP`
+
+
+![](img/061.png)
+
+- Escribimos en el servidor de entrada `pop.miempresa.com`
+- Escribimos en el servidor de salida `smtp.miempresa.com`
+
+![](img/062.png)
+
+- Realizamos el mismo procedimiento con la cuenta de correo para `stan`
+
+![](img/063.png)
+
+- Configuramos el nombre de usuario y su contraseña.
+
+![](img/064.png)
+
+- Escribimos en el servidor de entrada `pop.miempresa.com`
+- Escribimos en el servidor de salida `smtp.miempresa.com`
+
+![](img/065.png)
+
+Vamos a realizar una prueba de envio de correo desde la cuenta de `eric` a `stan`.
+
+![](img/069.png)
+
+- Comprobamos que el correo llega a la bandeja de entrada de `stan`.
+
+![](img/070.png)
+
+Vamos a realizar un correo desde la cuenta de `stan` a `eric`
+
+![](img/071.png)
+
+- Comprobamos que llega correctamente el correo de `stan` en `eric`
+
+![](img/072.png)
+
+Vamos al Servidor de correo de `Ubuntu` y comprobamos en `/var/mail` que tenemos todavía los contenedores de `stan`
+
+![](img/073.png)
+
+- Comprobamos también el contenedor de correo de `eric`
+
+![](img/074.png)
+
+Por defecto en los ficheros de configuración de `dovecot` no elimina los contenedores de correo de los usuarios `eric` y `stan`.
