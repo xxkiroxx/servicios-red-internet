@@ -1,16 +1,58 @@
-# U7-A1 | Instalación y Configuración de un Servidor de Mensajería Instantánea
+# U7-A1 | Instalación y Configuración de un Servidor de Mensajería Instantánea Openfire en Windows Server 2012
 
+![](img/000.png)
+
+
+## 1. Comprobar en nuestro servidor tenemos instalado los servicio IIS, PHP, MySQL y phpMyAdmin.
+
+Comprobamos que tenemos instalado el servicio de `IIS`.
 
 ![](img/001.png)
+
+Comprobamos que tenemos instalado el servicio de `MySQL`.
+
 ![](img/002.png)
+
+Comprobamos que tenemos instalado el `phpMyAdmin`.
+
 ![](img/003.png)
+
+## 2. Descargar Openfire
+
+Vamos a la página web oficial de la aplicación de Mensajería `Openfire`.
+
 ![](img/004.png)
+
+Seleccionamos `Openfire_4_2_2_bundledJRE_x64.exe` lo descargamos y al comenzar con la instalación seleccionamos el idioma `Español`.
+
 ![](img/005.png)
+
+Seguimos el asistente de instalación de `Openfire`.
+
 ![](img/006.png)
+
+Marcamos la casilla de iniciar el servicio de `Openfire`.
+
 ![](img/007.png)
+
+## 3. Crear una Base de Datos para Openfire
+
+Abrimos un navegador y entramos a la aplicación de `phpMyAdmin` y creamos la base de datos.
+
 ![](img/008.png)
+
+- Creamos un usuario para la base de datos de `Openfire`.
+
 ![](img/009.png)
+
+Le damos permiso al usuario para que tenga acceso completo a la base de datos de `Openfire`.
+
 ![](img/010.png)
+
+## 4. Configuración de Openfire
+
+Tenemos que abrir en un navegador y poner `localhost:9090` el `9090` es el puerto para abrir la aplicación de `Openfire`.
+
 ![](img/011.png)
 ![](img/012.png)
 ![](img/013.png)
