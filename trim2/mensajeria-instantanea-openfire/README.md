@@ -115,13 +115,13 @@ Ya termino la instalación.
 
 ![](img/026.png)
 
-- Se abre la aplicación con `Spark`
+- Se abre la aplicación con `Spark`.
+
+Vamos al equipo cliente e instalamos también `Spark`.
 
 ![](img/027.png)
 
-Vamos al equipo cliente y instalamos el `Spark`
-
-
+En el siguiente punto crearemos usuarios para darle uso a estos clientes.
 
 ## 6. Creación de Usuario para Openfire
 
@@ -137,7 +137,7 @@ Listado de usuarios creados.
 
 ![](img/030.png)
 
-Tenemos que abrir la aplicación de `Spark` y marcas las siguientes casillas.
+Tenemos que abrir la aplicación de `Spark` y en el apartado `Ajustes avanzados` marcamos las siguientes casillas relacionadas con los certificados.
 
 ![](img/031.png)
 
