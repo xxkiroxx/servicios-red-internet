@@ -119,7 +119,7 @@ Ya termino la instalación.
 
 ![](img/027.png)
 
-Vamos al Equipo cliente y vemos que está instalado el `Spark`
+Vamos al equipo cliente y instalamos el `Spark`
 
 
 
@@ -174,19 +174,68 @@ Envió un mensaje a `eric`
 Vemos que el mensaje llega correctamente.
 
 ![](img/040.png)
+
+Vamos a crear una conferencia nueva.
+
 ![](img/041.png)
+
+Le damos a crear conferencia
+
 ![](img/042.png)
+
+Establecemos el nombre a la sala.
+
 ![](img/043.png)
+
+Para entrar en la sala solo tenemos que buscarla en conferencia y nos unimos.
+
 ![](img/044.png)
+
+Los dos usuarios escriben algo en la sala.
+
 ![](img/045.png)
+
+Se puede enviar fotos.
+
 ![](img/046.png)
+
+El usuario acepta la foto y la puede visualizar
+
 ![](img/047.png)
+
+
 ![](img/048.png)
+
+## 7. Instalación de SparkWeb
+
+Vamos a la página web y descargamos la aplicación de `SparkWeb`
+
 ![](img/049.png)
+
+Descomprimimos la carpeta de `SparkWeb` en la unidad `c:`
+
 ![](img/050.png)
+
+Comprobamos su contenido.
+
 ![](img/051.png)
+
+Vamos al `IIS` y creamos una virtual host nuevo.
+
 ![](img/052.png)
+
+Vamos al Servicio de `DNS` y lo llamamos `sparkweb.miempresa.com`
+
 ![](img/053.png)
+
+Añadimos al documento predeterminado `SparkWeb.html`
+
 ![](img/054.png)
+
+Instalamos el adobe flash player.
+
 ![](img/055.png)
+
+Intentamos acceder a la página, pero no funciona el botón login.
+
 ![](img/056.png)
