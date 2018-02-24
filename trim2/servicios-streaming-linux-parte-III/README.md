@@ -1,5 +1,7 @@
 # Instalación y Configuración de un Servidor Multimedia (Audio)
 
+![](img/000.jpg)
+
 ## 1. Descargar e Instalación el paquete IceCast
 
 Primero tenemos que escribir el siguiente comando `apt install icecast2`
@@ -165,5 +167,98 @@ roberto@serverob:~$
 - Recopilar  unos  cuantos  ficheros  de  audio  en  formato  ogg  y  copiarlos  en  el  
 directorio `/tmp/música`
 
+```console
+roberto@serverob:/etc/icecast2$ sudo mkdir /tmp/musica
+roberto@serverob:/etc/icecast2$ sudo cp /home/roberto/Descargas/Stidiek_-_El_tercer_lado_del_espejo.ogg /tmp/musica/
+roberto@serverob:/etc/icecast2$ sudo ls -l /tmp/musica/
+total 500
+-rw-r--r-- 1 root root 510186 feb 24 13:19 Stidiek_-_El_tercer_lado_del_espejo.ogg
+roberto@serverob:/tmp/musica$ sudo cp 1.ogg 2.ogg
+roberto@serverob:/tmp/musica$ sudo cp 1.ogg 3.ogg
+roberto@serverob:/tmp/musica$ sudo cp 1.ogg 4.ogg
+roberto@serverob:/tmp/musica$ ls
+1.ogg  2.ogg  3.ogg  4.ogg  Stidiek_-_El_tercer_lado_del_espejo.ogg
+roberto@serverob:/tmp/musica$
+```
 
-Generar la lista de reproducción:
+Creamos al fichero `playlist.txt`
+
+```console
+roberto@serverob:/etc/icecast2$ sudo touch playlist.txt
+roberto@serverob:/etc/icecast2$ ls -l
+total 20
+drwxrwxr-x 2 icecast2 icecast 4096 feb 23 23:02 admin
+-rw-rw---- 1 icecast2 icecast 9177 feb 23 23:27 icecast.xml
+-rw-r--r-- 1 root     root       0 feb 24 13:06 playlist.txt
+drwxrwxr-x 2 icecast2 icecast 4096 feb 23 23:02 web
+roberto@serverob:/etc/icecast2$
+```
+
+- Modificamos los permisos y generamos la lista de reproducción:
+
+```console
+roberto@serverob:/etc/icecast2$ sudo chmod 777 playlist.txt
+roberto@serverob:/etc/icecast2$ sudo find /tmp/musica -iname *.ogg > /etc/icecast2/playlist.txt
+roberto@serverob:/tmp/musica$ sudo cat /etc/icecast2/playlist.txt
+/tmp/musica/Stidiek_-_El_tercer_lado_del_espejo.ogg
+```
+
+Crear el directorio log de ices2:
+
+```console
+roberto@serverob:~$ sudo mkdir /var/log/ices2
+roberto@serverob:~$ sudo ls -l /var/log/ | grep ices2
+drwxr-xr-x 2 root              root      4096 feb 24 13:03 ices2
+roberto@serverob:~$
+```
+
+- Debemos reiniciar el servicio `systemctl restart icecast2`
+
+Solo tenemos que abrir el navegador y escribimos `localhost:8000` y nos pedirá el acceso al usuario y contraseña.
+
+![](img/004.png)
+
+Seleccionamos `mountpont list` y comprobamos que no tenemos ninguna lista en ejecución.
+
+![](img/005.png)
+
+![](img/006.png)
+
+- Ejecutar el codificador en background:
+
+```console
+roberto@serverob:/etc/icecast2$ sudo ices2 /etc/ices2/ices-playlist.xml &
+[1] 3499
+roberto@serverob:/etc/icecast2$ unable to open log /var/log/ices/ices.log
+```
+
+Al ejecutar el codificador en segundo plano, comprobamos que ya tenemos montado una `playlist`
+
+![](img/007.png)
+
+Le damos a los botones de la derecha y ejecutamos un reproductor de música.
+
+![](img/008.png)
+
+![](img/009.png)
+
+
+Seleccionamos nuestro reproductor en mi caso el `vlc`
+
+![](img/013.png)
+
+Comprobamos que en la página de icecast vemos que ya tenemos montado la playlist y podemos reproducir el sonido desde la web.
+
+![](img/010.png)
+
+Comprobamos que desde un Equipo cliente podemos acceder por web a la playlist.
+
+![](img/014.png)
+
+Si seleccionamos el icono de la derecha `M3U` (es un fichero con la dirección IP y la playlist para que un reproductor se conecte al servidor.)
+
+![](img/015.png)
+
+Abrimos un VLC con el fichero `M3U` y ya podemos reproducir nuestra canción.
+
+![](img/016.png)
