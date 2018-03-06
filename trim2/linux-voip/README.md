@@ -185,3 +185,21 @@ Escribimos los siguiente parámetros para que se pueda conectar a nuestro sistem
 ![](img/044.png)
 
 ![](img/045.png)
+
+Realizamos los mismo pasos con otro cliente, en el que incluiremos al usuario `kevin`.
+
+![](img/048.png)
+
+En la siguiente captura vemos como ambos están funcionando al mismo tiempo.
+
+![](img/046.png)
+
+- Si accedemos a la interfaz web de elastix podemos ver que ambas cuentas están configurados al mismo tiempo en este momento.
+
+  ![](img/047.png)
+
+- Y en el apartado de los teléfonos podemos comprobar que ambas sesiones están en los softphone de `Ekiga`.
+
+  ![](img/049.png)
+
+## 5. Comprobar con una llamada
