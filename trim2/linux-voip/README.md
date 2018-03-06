@@ -168,38 +168,69 @@ Comprobamos que ya tenemos registrada 3 extensión.
 
 ![](img/039.png)
 
-## 4. Equipo Cliente Instalación de ekiga
 
-Abrimos una terminal y instalamos el software `ekiga`.
+## 4. Instalación del cliente
 
-![](img/040.png)
+En nuestro caso primero probamos con el cliente `ekiga`, pero tuvimos bastantes problemas para realizar la conexión, el servidor los detectaba pero no realizaba llamadas, por lo que intentamos utilizar el cliente `3cx softphone`. Para ello vamos a descargar el programa desde su página oficial.
 
-Abrimos el programa y le damos cuentas y luego añadir una cuenta SIP.
+![](img/051.png)
 
-![](img/041.png)
+- Al instalarlo nos solicita un perfil SIP, por lo que añadiremos el perfil de `kevin`.
 
-![](img/043.png)
+  ![](img/052.png)
 
-Escribimos los siguiente parámetros para que se pueda conectar a nuestro sistema de `VOIP`.
+  ![](img/053.png)
 
-![](img/044.png)
+  ![](img/054.png)
 
-![](img/045.png)
+Una vez especificada la extensión y las credenciales necesarias vemos que el teléfono esta operativo.
 
-Realizamos los mismo pasos con otro cliente, en el que incluiremos al usuario `kevin`.
+![](img/055.png)
 
-![](img/048.png)
+- Instalamos el softphone y repetimos todos los pasos en un nuevo equipo cliente, pero esta vez con la configuración SIP de `roberto`.
 
-En la siguiente captura vemos como ambos están funcionando al mismo tiempo.
+![](img/056.png)
 
-![](img/046.png)
+## 4.1. Comprobaciones
 
-- Si accedemos a la interfaz web de elastix podemos ver que ambas cuentas están configurados al mismo tiempo en este momento.
+Vamos a realizar llamadas de comprobación:
 
-  ![](img/047.png)
+- Preparamos los telefonos y vemos que ambos estan a la espera.
 
-- Y en el apartado de los teléfonos podemos comprobar que ambas sesiones están en los softphone de `Ekiga`.
+  ![](img/057.png)
 
-  ![](img/049.png)
+- Realizamos una llamada desde `Kevin` hasta `Roberto`, y vemos que efectivamente `Roberto` recibe la llamada.
 
-## 5. Comprobar con una llamada
+![](img/058.png)
+
+- Esto también vemos que funciona de viceversa.
+
+![](img/059.png)
+
+- Si respondemos a la llamada podemos comprobar que se inicia la conversación y sale un temporizador de tiempo de llamada
+
+![](img/060.png)
+
+- Para finalizar si accedemos a la interfaz web de `Elastix` podemos comprobar que ambos usuarios están conectados.
+
+![](img/061.png)
+
+- En el apartado de `teléfonos` podemos comprobar que los teléfonos conectados se encuentran a través de clientes Windows y que están siendo usando con las cuentas de `kevin` y `roberto`
+
+![](img/062.png)
+
+## ANEXO. Clientes móviles
+
+En este apartado no pudimos completarlo por que no tuvimos forma de establecer conexión con la red de clase, pero si pudimos hacer la instalación del cliente.
+
+- Para esto solo descargarmos la aplicación de la PlayStore en android.
+
+  ![](img/065.jpg)
+
+- La interfaz de la aplicación es similar a la versión de escritorio.
+
+  ![](img/063.jpg)
+
+- Y como indicamos previamente no pudimos establecer la conexión porque no teníamos acceso a la red y nuestro servidor no dispone de una IP Externa valida. 
+
+Una vez dicho esto podemos dar por finalizada la práctica.
